@@ -2,14 +2,32 @@
   "name": "string-transformer",
   "version": "1.0.0",
   "description": "Transform strings to everything",
-  "main": "index.js",
+  "type": "module",
+  "main": "src/js/core.js",
+  "exports": {
+    ".": "./src/js/core.js"
+  },
+  "bin": {
+    "string-transformer": "./bin/cli.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test",
+    "serve": "pnpm dlx serve .",
+    "build:seo": "node scripts/build-seo-pages.mjs"
   },
   "keywords": [
     "string",
-    "transform"
+    "transform",
+    "case-converter",
+    "base64",
+    "morse-code",
+    "text-tools",
+    "vanilla-js"
   ],
   "author": "Nando Muñoz",
-  "license": "MIT"
+  "license": "MIT",
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=18"
+  }
 }

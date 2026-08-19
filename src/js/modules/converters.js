@@ -1,34 +1,41 @@
 import checker from "./checker.js";
 import msg from "../data/msg.js";
-import {
-  MAP_UPSIDE_DOWN,
-  MAP_ASCII_TO_MORSE,
-  MAP_MORSE_TO_ASCII,
-} from "../data/dictionary.js";
+import { FormatError } from "./errors.js";
+import { MAP_ASCII_TO_MORSE, MAP_MORSE_TO_ASCII } from "../data/dictionary.js";
 
 function binary2Utf8(str) {
-  if (!checker.isBinary(str)) return msg.isBinary.format;
-  const binaryArray = str.match(/.{1,8}/g);
-  const decimalArray = binaryArray.map((bin) => parseInt(bin, 2));
-  const charArray = decimalArray.map((num) => String.fromCharCode(num));
-  return charArray.join("");
+  if (!checker.isBinary(str)) throw new FormatError(msg.binary2Utf8.format);
+  const byteStrings = str.replace(/\s+/g, "").match(/.{1,8}/g);
+  const bytes = Uint8Array.from(byteStrings.map((byte) => parseInt(byte, 2)));
+  try {
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  } catch {
+    throw new FormatError(msg.binary2Utf8.format);
+  }
 }
 
 function utf82binary(str) {
-  const binaryArray = Array.from(str).map((char) => {
-    const asciiValue = char.charCodeAt(0);
-    let binaryValue = asciiValue.toString(2);
-    return binaryValue.padStart(8, "0");
-  });
-  return binaryArray.join(" ");
+  const bytes = new TextEncoder().encode(str);
+  return Array.from(bytes)
+    .map((byte) => byte.toString(2).padStart(8, "0"))
+    .join(" ");
 }
 
 function base64ToASCII(str) {
-  return checker.isBase64(str) ? atob(str) : msg.isBase64.format;
+  if (!checker.isBase64(str)) throw new FormatError(msg.base64ToASCII.format);
+  const binary = atob(str);
+  const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+  try {
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  } catch {
+    throw new FormatError(msg.base64ToASCII.format);
+  }
 }
 
 function ASCIIToBase64(str) {
-  return btoa(str);
+  const bytes = new TextEncoder().encode(str);
+  const binary = Array.from(bytes, (byte) => String.fromCharCode(byte)).join("");
+  return btoa(binary);
 }
 
 function text2Morse(str) {
@@ -36,14 +43,16 @@ function text2Morse(str) {
     .toUpperCase()
     .split("")
     .map((char) => MAP_ASCII_TO_MORSE[char] || "")
-    .join(" ");
+    .join(" ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function morse2Text(str) {
-  if (!checker.isMorse(str)) return msg.isMorse.format;
-  const morseWords = str.split(" / ");
+  if (!checker.isMorse(str)) throw new FormatError(msg.morse2Text.format);
+  const morseWords = str.trim().split(" / ");
   const asciiWords = morseWords.map((word) => {
-    const morseChars = word.split(" ");
+    const morseChars = word.trim().split(/\s+/);
     const asciiChars = morseChars.map((char) => MAP_MORSE_TO_ASCII[char] || "");
     return asciiChars.join("");
   });
@@ -61,29 +70,22 @@ function escapeHtml2String(str) {
 
 function escapeString2Html(str) {
   return str
-    .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'");
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, "&");
 }
 
-const opposite = {
-  utf8_binary: ["binary2Utf8", "utf82binary"],
-  ASCII_Base64: ["base64ToASCII", "ASCIIToBase64"],
-  text2Morse: ["text2Morse", "morse2Text"],
-  escapeHTML_String: ["escapeHtml2String", "escapeString2Html"],
-};
-
 const converters = {
-  binary2Utf8: binary2Utf8,
-  utf82binary: utf82binary,
-  base64ToASCII: base64ToASCII,
-  ASCIIToBase64: ASCIIToBase64,
-  text2Morse: text2Morse,
-  morse2Text: morse2Text,
-  escapeHtml2String: escapeHtml2String,
-  escapeString2Html: escapeString2Html,
+  binary2Utf8,
+  utf82binary,
+  base64ToASCII,
+  ASCIIToBase64,
+  text2Morse,
+  morse2Text,
+  escapeHtml2String,
+  escapeString2Html,
 };
 
 export {
@@ -95,6 +97,5 @@ export {
   morse2Text,
   escapeHtml2String,
   escapeString2Html,
-  opposite,
   converters,
 };

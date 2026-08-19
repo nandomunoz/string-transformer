@@ -1,0 +1,243 @@
+/*
+ * Transformer picker: an ARIA combobox that renders as a dropdown on desktop
+ * and as a full-screen search overlay on mobile — the pattern phones already
+ * use for search, and the only one that survives the on-screen keyboard eating
+ * half the viewport.
+ *
+ * The outer .command-menu stays in normal flow and holds the row's height, so
+ * the app bar doesn't collapse when .command-menu-panel goes position:fixed.
+ */
+
+.command-menu {
+  position: relative;
+  width: 100%;
+  min-height: var(--st-tap-target);
+}
+
+.command-menu-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.command-menu-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/*
+ * Only padding-inline-END is set here. Pico gives [type=search] a magnifier
+ * background-image at `center left 1.125rem` plus a matching padding-inline-
+ * start; overriding the start padding slides the text back under the icon.
+ */
+.command-menu-field input[type="search"] {
+  width: 100%;
+  height: var(--st-tap-target);
+  margin: 0;
+  padding-inline-end: 2.25rem;
+  border-radius: 999px;
+  border: 1px solid var(--st-border-subtle);
+  background-color: var(--st-field);
+  color: var(--st-text);
+  /* 1rem exactly: anything smaller makes iOS Safari zoom on focus. */
+  font-size: var(--st-text-base);
+  text-overflow: ellipsis;
+}
+
+.command-menu-field input[type="search"]::-webkit-search-cancel-button {
+  display: none;
+}
+
+.command-menu-chevron {
+  position: absolute;
+  right: 0.9rem;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  opacity: 0.55;
+  font-size: 0.7rem;
+  transition: transform var(--st-duration) var(--st-ease);
+}
+
+.command-menu.is-open .command-menu-chevron {
+  transform: rotate(180deg);
+}
+
+/* Only rendered in the mobile overlay; hidden everywhere else. */
+.command-menu-close {
+  display: none;
+  flex-shrink: 0;
+  width: auto;
+  min-width: var(--st-tap-target);
+  min-height: var(--st-tap-target);
+  margin: 0 0 0 var(--st-space-xs);
+  padding: 0 var(--st-space-sm);
+  border: none;
+  background: none;
+  color: var(--st-text-muted);
+  font-size: var(--st-text-sm);
+}
+
+/*
+ * #stMenu is a <nav>, and Pico styles `nav ul`/`nav li` as a horizontal navbar
+ * (display:flex / inline-block). This list is a listbox, not a navbar, so every
+ * level needs an explicit override back to a vertical block list.
+ */
+.command-menu-list {
+  display: block;
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  right: 0;
+  max-height: min(24rem, 60vh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin: 0;
+  padding: var(--st-space-2xs);
+  list-style: none;
+  background-color: var(--st-surface-raised);
+  border: 1px solid var(--st-border-subtle);
+  border-radius: var(--st-radius);
+  box-shadow: var(--st-shadow-overlay);
+  scrollbar-width: thin;
+}
+
+.command-menu-category,
+.command-menu-option,
+.command-menu-empty {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: var(--st-space-xs) var(--st-space-sm);
+}
+
+.command-menu-category {
+  position: sticky;
+  top: calc(var(--st-space-2xs) * -1);
+  z-index: 1;
+  padding-bottom: var(--st-space-2xs);
+  background-color: var(--st-surface-raised);
+  color: var(--st-text-muted);
+  font-size: var(--st-text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--st-text-muted);
+}
+
+.command-menu-category:not(:first-child) {
+  margin-top: var(--st-space-2xs);
+}
+
+.command-menu-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--st-space-sm);
+  min-height: var(--st-tap-target);
+  border-radius: var(--st-radius-sm);
+  cursor: pointer;
+  /* Titles are short; keep them on one line so the list scans vertically. */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.command-menu-option::after {
+  content: "";
+  flex-shrink: 0;
+  width: 1.1em;
+  font-size: var(--st-text-sm);
+  text-align: right;
+  opacity: 0;
+}
+
+/* Checkmark on the transformer that's currently loaded, so reopening the list
+   tells you where you are without reading the input above. */
+.command-menu-option[aria-selected="true"]::after {
+  content: "✓";
+  opacity: 0.7;
+}
+
+.command-menu-option.is-active,
+.command-menu-option:hover {
+  background-color: var(--st-accent);
+  color: var(--st-accent-contrast);
+}
+
+.command-menu-empty {
+  color: var(--st-text-muted);
+}
+
+/* --- Mobile: full-screen search overlay ------------------------------ */
+@media (width < 48em) {
+  .command-menu.is-open .command-menu-panel {
+    position: fixed;
+    z-index: 40;
+    inset: 0;
+    padding: var(--st-space-sm);
+    padding-top: calc(var(--st-space-sm) + env(safe-area-inset-top));
+    padding-bottom: calc(var(--st-space-sm) + env(safe-area-inset-bottom));
+    background-color: var(--st-surface);
+  }
+
+  .command-menu.is-open .command-menu-chevron {
+    display: none;
+  }
+
+  .command-menu.is-open .command-menu-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .command-menu.is-open .command-menu-list {
+    position: static;
+    flex: 1 1 auto;
+    max-height: none;
+    margin-top: var(--st-space-sm);
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .command-menu.is-open .command-menu-category {
+    background-color: var(--st-surface);
+    top: 0;
+  }
+
+  .command-menu.is-open .command-menu-option {
+    /* Roomier rows: this is the primary navigation on a phone. */
+    min-height: 3rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @media (width < 48em) {
+    .command-menu.is-open .command-menu-panel {
+      animation: st-overlay-in var(--st-duration) var(--st-ease);
+    }
+  }
+
+  .command-menu.is-open .command-menu-list {
+    animation: st-dropdown-in var(--st-duration) var(--st-ease);
+  }
+}
+
+@keyframes st-overlay-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+}
+
+@keyframes st-dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.35rem);
+  }
+}

@@ -1,57 +1,331 @@
-/* Site Layout */
-@import "section-default.css";
+/* Site layout */
+@import "tokens.css";
 @import "header-default.css";
 @import "footer-default.css";
+@import "section-default.css";
+@import "command-menu.css";
 
-
-body > header {
-  background-color: transparent;
+body > main.container {
+  width: 100%;
+  max-width: var(--st-content-width);
+  margin-inline: auto;
+  padding: var(--st-space-lg) var(--st-space-md);
 }
 
-body > header,
-body > main,
-body > footer {
-  padding: var(--core-space);
+/* --- The tool card --------------------------------------------------- */
+
+.st-workspace {
+  margin: 0;
+  padding: var(--st-space-lg);
+  border: 1px solid var(--st-border-subtle);
+  border-radius: var(--st-radius-lg);
+  background-color: var(--st-surface);
 }
 
-form > menu {
-  padding: 0;
+.st-mode {
+  margin-bottom: var(--st-space-md);
+}
+
+/*
+ * Container context for the panels. It deliberately wraps only the panels and
+ * not .st-actions: `container-type` implies layout containment, which would
+ * make this element the containing block for the action bar's `position:fixed`
+ * on mobile and pin it to the card instead of to the viewport.
+ */
+.st-panels-frame {
+  container-type: inline-size;
+  container-name: panels;
+}
+
+.st-mode-eyebrow {
+  display: block;
+  margin-bottom: 0.15rem;
+  font-size: var(--st-text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--st-text-muted);
+}
+
+.st-mode-title {
+  margin: 0;
+  font-size: var(--st-text-xl);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.st-mode-desc {
+  margin: var(--st-space-2xs) 0 0;
+  font-size: var(--st-text-sm);
+  color: var(--st-text-muted);
+  max-width: 60ch;
+}
+
+/* --- Input / output panels ------------------------------------------- */
+
+.st-panels {
+  display: grid;
+  gap: var(--st-space-md);
+  align-items: stretch;
+}
+
+@container panels (width >= 38rem) {
+  .st-panels {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.st-panel {
   display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
 
-  li {
-    width: 100%;
+.st-panel-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--st-space-sm);
+  margin-bottom: var(--st-space-2xs);
+}
+
+.st-panel-label {
+  margin: 0;
+  font-size: var(--st-text-sm);
+  font-weight: 600;
+}
+
+.st-char-count {
+  font-size: var(--st-text-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--st-text-muted);
+}
+
+.st-panel textarea {
+  flex: 1 1 auto;
+  margin: 0;
+  padding: var(--st-space-sm);
+  border-radius: var(--st-radius);
+  border: 1px solid var(--st-border-subtle);
+  background-color: var(--st-field);
+  color: var(--st-text);
+  font-family: var(--st-font-mono);
+  /* 1rem: below that, iOS Safari zooms in when the field is focused. */
+  font-size: var(--st-text-base);
+  line-height: 1.6;
+  /* Long unbroken output (base64, hashes) wraps instead of scrolling sideways. */
+  overflow-wrap: anywhere;
+  resize: vertical;
+  min-height: 9rem;
+}
+
+@container panels (width >= 38rem) {
+  .st-panel textarea {
+    min-height: 15rem;
   }
 }
 
-form > fieldset {
+.st-panel--output textarea {
+  background-color: var(--st-output);
+  border-color: transparent;
+}
+
+/* --- Inline feedback -------------------------------------------------- */
+
+.st-suggestion,
+.st-alert {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--st-space-xs);
+  margin: var(--st-space-xs) 0 0;
+  padding: var(--st-space-xs) var(--st-space-sm);
+  border-radius: var(--st-radius-sm);
+  font-size: var(--st-text-sm);
+}
+
+.st-suggestion {
+  background-color: var(--st-accent-soft);
+}
+
+.st-suggestion button {
+  background-color: transparent;
+  border: 1px solid var(--st-accent-text);
+  color: var(--st-accent-text);
+  width: auto;
+  min-height: var(--st-tap-target);
+  margin: 0;
+  padding: 0 var(--st-space-sm);
+  border-radius: var(--st-radius-sm);
+  font-size: var(--st-text-sm);
+}
+
+.st-alert {
+  background-color: var(--st-danger-soft);
+  color: var(--st-danger);
+}
+
+.st-alert::before {
+  content: "⚠";
+  flex-shrink: 0;
+}
+
+/* [hidden] must win over the flex display above. */
+[hidden] {
+  display: none !important;
+}
+
+/* --- Action bar ------------------------------------------------------- */
+
+.st-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--st-space-xs);
+  margin-top: var(--st-space-md);
+}
+
+.st-actions button {
+  flex: 1 1 auto;
+  width: auto;
+  min-height: var(--st-tap-target);
+  margin: 0;
+  padding: 0 var(--st-space-md);
+  border-radius: var(--st-radius-sm);
+  font-size: var(--st-text-sm);
+  white-space: nowrap;
+}
+
+/* Copy is the one action people came for: it stays visually primary and, on a
+   phone, takes the widest slice of the thumb-reachable bar. */
+.st-actions .st-action-primary {
+  flex: 2 1 auto;
+  background-color: var(--st-accent);
+  border-color: var(--st-accent);
+  color: var(--st-accent-contrast);
+  font-weight: 600;
+}
+
+.st-actions .st-action-primary:hover,
+.st-actions .st-action-primary:focus-visible {
+  background-color: var(--st-accent-hover);
+  border-color: var(--st-accent-hover);
+}
+
+/* `color` is spelled out rather than inherited: Pico redefines --color to
+   --primary-inverse on every button, so inheriting would paint the label in
+   the accent's contrast colour and make it vanish on this transparent fill. */
+.st-actions .st-action-secondary {
+  background-color: transparent;
+  border: 1px solid var(--st-border-strong);
+  color: var(--st-text);
+}
+
+.st-actions .st-action-secondary:hover,
+.st-actions .st-action-secondary:focus-visible {
+  background-color: var(--st-accent-soft);
+}
+
+@media (width >= 48em) {
+  .st-actions {
+    justify-content: flex-end;
+  }
+
+  .st-actions button,
+  .st-actions .st-action-primary {
+    flex: 0 0 auto;
+  }
+}
+
+/* Mobile: pin the actions to the thumb zone instead of making people scroll
+   back down to them after typing. */
+@media (width < 48em) {
+  body {
+    padding-bottom: calc(
+      var(--st-tap-target) + var(--st-space-lg) + env(safe-area-inset-bottom)
+    );
+  }
+
+  .st-actions.is-pinned {
+    position: fixed;
+    z-index: 15;
+    inset: auto 0 0 0;
+    margin: 0;
+    padding: var(--st-space-xs) var(--st-space-md);
+    padding-bottom: calc(var(--st-space-xs) + env(safe-area-inset-bottom));
+    background-color: var(--st-surface);
+    border-top: 1px solid var(--st-border-subtle);
+  }
+
+  .st-workspace {
+    padding: var(--st-space-md);
+  }
+}
+
+/* --- Password generator dialog (easter egg) --------------------------- */
+
+#pwdDialog article {
+  width: 100%;
+  max-width: 34rem;
+  border-radius: var(--st-radius-lg);
+}
+
+#pwdDialog .st-pwd-output {
+  display: flex;
+  align-items: center;
+  gap: var(--st-space-xs);
+}
+
+#pwdDialog .st-pwd-output input {
   margin-bottom: 0;
-  button {
-    background-color: transparent;
-    color: currentColor;
-    border-color: currentColor;
-    width: auto;
-    padding: var(--core-space-half) var(--core-space);
-  }
+  border-radius: var(--st-radius-sm);
+  font-family: var(--st-font-mono);
+  font-size: var(--st-text-base);
+  overflow-wrap: anywhere;
 }
 
-@media (width > 780px) {
-  body > header,
-  body > main,
-  body > footer {
-    max-width: var(--core-maxWidth);
-    margin: 0 auto;
-  }
+#pwdDialog .st-pwd-output button {
+  flex-shrink: 0;
+  width: auto;
+  min-height: var(--st-tap-target);
+  margin-bottom: 0;
+  border-radius: var(--st-radius-sm);
+}
 
-  body > main > article > form {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-row: repeat(3, auto);
-    grid-gap: 1em;
+#pwdDialog .st-pwd-meta {
+  margin: var(--st-space-xs) 0 var(--st-space-2xs);
+  font-size: var(--st-text-sm);
+  color: var(--st-text-muted);
+}
 
-    > hgroup,
-    > menu {
-      grid-column: 1 / span 2;
-      margin: 0;
-    }
-  }
+#pwdDialog .st-pwd-meta.st-pwd-error {
+  color: var(--st-danger);
+}
+
+#pwdDialog .st-pwd-crack-time {
+  margin: 0 0 var(--st-space-md);
+  font-size: var(--st-text-sm);
+  color: var(--st-text-muted);
+  cursor: help;
+  text-decoration: underline dotted;
+  text-underline-offset: 0.2em;
+}
+
+#pwdDialog .st-pwd-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: var(--st-space-2xs) var(--st-space-md);
+  border: none;
+  padding: 0;
+  margin: 0 0 var(--st-space-md);
+}
+
+#pwdDialog .st-pwd-grid label {
+  display: flex;
+  align-items: center;
+  min-height: var(--st-tap-target);
+  margin-bottom: 0;
+  font-size: var(--st-text-sm);
 }

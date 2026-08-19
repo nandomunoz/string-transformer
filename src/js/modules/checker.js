@@ -15,7 +15,10 @@ const checker = {
       const reEncoded = btoa(decoded);
       return str === reEncoded;
     },
-    isBinary: (str) => /^[0-1]+$/.test(str),
+    isBinary: (str) => {
+      const cleaned = str.replace(/\s+/g, "");
+      return cleaned.length > 0 && cleaned.length % 8 === 0 && /^[01]+$/.test(cleaned);
+    },
     isMorse: (str) => /^[.-\s/]*$/.test(str)
   }
 

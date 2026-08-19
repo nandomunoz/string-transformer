@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark light" />
+    <title>All Text Transformers — String Transformer</title>
+    <meta
+      name="description"
+      content="Browse every text transformer: case conversion, encoding, ciphers, hashing, dev tools and text utilities. Free, instant, works offline."
+    />
+    <link rel="canonical" href="https://nandovejer.github.io/string-transformer/t/" />
+    <meta name="theme-color" content="#161b22" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="stylesheet" href="../src/css/vendor/pico.min.css" />
+    <link rel="stylesheet" href="../style.css" />
+    <script>
+          // Applies the saved theme before first paint, so reloading in light mode
+          // doesn't flash the dark palette. app.js owns it from then on.
+          (function () {
+            try {
+              var stored = localStorage.getItem("st-theme");
+              var prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+              document.documentElement.dataset.theme = stored || (prefersLight ? "light" : "dark");
+            } catch (err) {
+              document.documentElement.dataset.theme = "dark";
+            }
+          })();
+        </script>
+  </head>
+  <body>
+    <header class="st-appbar">
+      <div class="st-appbar-inner container">
+        <p class="st-brand"><a href="../">String Transformer</a></p>
+      </div>
+    </header>
+    <main class="container">
+      <article class="st-seo-content">
+        <h1>All transformers</h1>
+        <p>Every text transformation String Transformer supports, grouped by category.</p>
+        <section>
+          <h2>Basic</h2>
+          <ul class="st-seo-links">
+            <li><a href="trim/">TRIM</a></li>
+            <li><a href="lower-case/">LOWER CASE</a></li>
+            <li><a href="upper-case/">UPPER CASE</a></li>
+          </ul>
+        </section>
+        <section>
+          <h2>Naming Conventions</h2>
+          <ul class="st-seo-links">
+            <li><a href="camel-case/">CAMEL CASE</a></li>
+            <li><a href="pascal-case/">PASCAL CASE</a></li>
+            <li><a href="snake-case/">SNAKE CASE</a></li>
+            <li><a href="screaming-snake-case/">SCREAMING SNAKE CASE</a></li>
+            <li><a href="camel-snake-case/">CAMEL SNAKE CASE</a></li>
+            <li><a href="kebab-case/">KEBAB CASE</a></li>
+            <li><a href="screaming-kebab-case/">SCREAMING KEBAB CASE</a></li>
+            <li><a href="train-case/">TRAIN CASE</a></li>
+            <li><a href="spongebob-case/">SPONGEBOB CASE</a></li>
+            <li><a href="title-case/">TITLE CASE</a></li>
+            <li><a href="sentence-case/">SENTENCE CASE</a></li>
+            <li><a href="dot-case/">DOT CASE</a></li>
+            <li><a href="path-case/">PATH CASE</a></li>
+            <li><a href="random-case/">RANDOM CASE</a></li>
+          </ul>
+        </section>
+        <section>
+          <h2>Encoding</h2>
+          <ul class="st-seo-links">
+            <li><a href="binary2-utf8/">BINARY TO TEXT</a></li>
+            <li><a href="utf82binary/">TEXT TO BINARY</a></li>
+            <li><a href="base64-to-ascii/">BASE64 DECODE</a></li>
+            <li><a href="ascii-to-base64/">BASE64 ENCODE</a></li>
+            <li><a href="escape-html2-string/">ESCAPE HTML TO STRING</a></li>
+            <li><a href="escape-string2-html/">ESCAPE STRING TO HTML</a></li>
+            <li><a href="url-encode/">URL ENCODE</a></li>
+            <li><a href="url-decode/">URL DECODE</a></li>
+            <li><a href="hex-encode/">TEXT TO HEX</a></li>
+            <li><a href="hex-decode/">HEX TO TEXT</a></li>
+            <li><a href="base64-url-encode/">BASE64 URL-SAFE ENCODE</a></li>
+            <li><a href="base64-url-decode/">BASE64 URL-SAFE DECODE</a></li>
+            <li><a href="unicode-escape/">UNICODE ESCAPE</a></li>
+            <li><a href="unicode-unescape/">UNICODE UNESCAPE</a></li>
+            <li><a href="json-escape/">JSON ESCAPE</a></li>
+            <li><a href="json-unescape/">JSON UNESCAPE</a></li>
+            <li><a href="slugify/">SLUGIFY</a></li>
+          </ul>
+        </section>
+        <section>
+          <h2>Ciphers &amp; Codes</h2>
+          <ul class="st-seo-links">
+            <li><a href="text2-morse/">TEXT TO MORSE</a></li>
+            <li><a href="morse2-text/">MORSE TO TEXT</a></li>
+            <li><a href="rot13/">ROT13</a></li>
+            <li><a href="atbash/">ATBASH</a></li>
+            <li><a href="rot47/">ROT47</a></li>
+            <li><a href="text-to-nato/">TEXT TO NATO ALPHABET</a></li>
+            <li><a href="nato-to-text/">NATO ALPHABET TO TEXT</a></li>
+            <li><a href="text-to-leet/">LEETSPEAK</a></li>
+            <li><a href="small-caps/">SMALL CAPS</a></li>
+            <li><a href="fullwidth-text/">FULLWIDTH</a></li>
+            <li><a href="zalgo-text/">ZALGO</a></li>
+          </ul>
+        </section>
+        <section>
+          <h2>Fun</h2>
+          <ul class="st-seo-links">
+            <li><a href="reverse-text/">REVERSE TEXT</a></li>
+            <li><a href="upside-down-text/">UPSIDE DOWN TEXT</a></li>
+          </ul>
+        </section>
+        <section>
+          <h2>Hashing</h2>
+          <ul class="st-seo-links">
+            <li><a href="sha1/">SHA-1 HASH</a></li>
+            <li><a href="sha256/">SHA-256 HASH</a></li>
+            <li><a href="sha512/">SHA-512 HASH</a></li>
+          </ul>
+        </section>
+        <section>
+          <h2>Dev Tools</h2>
+          <ul class="st-seo-links">
+            <li><a href="jwt-decode/">JWT DECODE</a></li>
+            <li><a href="count-stats/">TEXT STATS</a></li>
+          </ul>
+        </section>
+        <section>
+          <h2>Text Tools</h2>
+          <ul class="st-seo-links">
+            <li><a href="remove-extra-spaces/">REMOVE EXTRA SPACES</a></li>
+            <li><a href="remove-empty-lines/">REMOVE EMPTY LINES</a></li>
+            <li><a href="sort-lines/">SORT LINES (A-Z)</a></li>
+            <li><a href="sort-lines-desc/">SORT LINES (Z-A)</a></li>
+            <li><a href="dedupe-lines/">REMOVE DUPLICATE LINES</a></li>
+            <li><a href="reverse-lines/">REVERSE LINE ORDER</a></li>
+          </ul>
+        </section>
+      </article>
+    </main>
+    <footer class="container">
+      <small
+        >Project by
+        <a title="Author Site" href="https://github.com/nandovejer">Nando Muñoz</a>
+        · Code licensed <a title="MIT License" href="https://opensource.org/licenses/MIT">MIT</a></small
+      >
+    </footer>
+  </body>
+</html>

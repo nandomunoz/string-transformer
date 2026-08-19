@@ -1,6 +1,11 @@
 import { strTo, transformers } from "../core.js";
 import msg from "../data/msg.js";
-import { copyValue, resetInput } from "../modules/utils.js";
+import { findOppositeId } from "../data/opposites.js";
+import { copyValue, resetInput, debounce } from "../modules/utils.js";
+import { createCommandMenu } from "../modules/commandMenu.js";
+import { detectFormat } from "../modules/detect.js";
+
+const THEME_STORAGE_KEY = "st-theme";
 
 const form = document.querySelector("#formApp");
 const title = form?.querySelector(".js-st-titleSelected");
@@ -11,70 +16,101 @@ const outputLabel = form?.querySelector("label[for=output]");
 const outputTextarea = form?.querySelector("#output");
 const copyOutputBtn = form?.querySelector("#copyOutputBtn");
 const resetInputBtn = form?.querySelector("#resetInputBtn");
+const swapBtn = form?.querySelector("#swapBtn");
+const formatAlert = form?.querySelector("#formatAlert");
+const formatSuggestion = form?.querySelector("#formatSuggestion");
+const actionsBar = form?.querySelector(".st-actions");
+const inputCount = form?.querySelector("#inputCount");
+const outputCount = form?.querySelector("#outputCount");
+const menuContainer = document.querySelector("#stMenu");
+const themeToggleBtn = document.querySelector("#themeToggleBtn");
 
 const transformerStatus = {
   set: (value = null) => (window.transformerId = value),
   get: () => window.transformerId,
 };
 
-const executeConverter = ({ mode, str, transformers, outputTextarea }) => {
-  outputTextarea.value = strTo({ mode, str, transformers });
+const idFromHash = () => {
+  const id = decodeURIComponent(window.location.hash.replace(/^#/, ""));
+  return transformers[id] ? id : null;
 };
 
-const updateFormMessage = ({
-  transformerId,
-  title,
-  description,
-  inputLabel,
-  outputLabel,
-}) => {
-  title.textContent = msg[transformerId]
-    ? msg[transformerId].title
-    : msg.defaultConverter.title;
-  description.textContent = msg[transformerId]
-    ? msg[transformerId].description
-    : msg.defaultConverter.description;
-  inputLabel.textContent = msg[transformerId]
-    ? msg[transformerId].inputLabel
-    : msg.defaultConverter.inputLabel;
-  outputLabel.textContent = msg[transformerId]
-    ? msg[transformerId].outputLabel
-    : msg.defaultConverter.outputLabel;
+const setHash = (id) => {
+  if (window.location.hash === `#${id}`) return;
+  history.replaceState(null, "", `#${id}`);
 };
 
-const initEvents = () => {
-  const transformerId = transformerStatus.get();
+// Transformers are async (hashes await crypto.subtle), so a fast one started
+// later can resolve before a slow one started earlier and the stale result
+// would win. Every run takes a ticket; only the newest one may paint.
+let runToken = 0;
 
-  const submitForm = (event) => {
-    event.preventDefault();
-    console.log("submit form");
-    const inputValue = form.elements.input.value;
-    updateForm({ transformerId, inputValue });
-  };
+const executeConverter = async ({ mode, str, transformers, outputTextarea }) => {
+  const token = (runToken += 1);
+  const result = await strTo({ mode, str, transformers });
+  if (token !== runToken) return result;
 
-  const inputTextareaChange = (event) => {
-    event.preventDefault();
-    console.log("change input textarea");
-    const inputValue = event.target.value;
-    updateForm({ transformerId, inputValue });
-  };
-
-  copyValue({
-    btn: copyOutputBtn,
-    outputCopy: outputTextarea,
-  });
-
-  resetInput({
-    btn: resetInputBtn,
-    inputReset: inputTextarea,
-    outputReset: outputTextarea,
-  });
-
-  form.addEventListener("submit", submitForm);
-  inputTextarea.addEventListener("change", inputTextareaChange);
+  outputTextarea.value = result.ok ? result.value : "";
+  updateFormatAlert(result.error);
+  updateCharCounts();
+  return result;
 };
 
-const updateForm = ({ inputValue }) => {
+const updateFormatAlert = (error) => {
+  if (!formatAlert) return;
+  formatAlert.textContent = error || "";
+  formatAlert.hidden = !error;
+};
+
+const updateCharCounts = () => {
+  if (inputCount && inputTextarea) {
+    inputCount.textContent = `${inputTextarea.value.length} characters`;
+  }
+  if (outputCount && outputTextarea) {
+    outputCount.textContent = `${outputTextarea.value.length} characters`;
+  }
+};
+
+const updateSwapButton = (transformerId) => {
+  if (!swapBtn) return;
+  const oppositeId = findOppositeId(transformerId);
+  swapBtn.hidden = !oppositeId;
+  swapBtn.dataset.oppositeId = oppositeId || "";
+  if (oppositeId) {
+    const oppositeTitle = (msg[oppositeId] || {}).title || oppositeId;
+    swapBtn.title = `Switch to ${oppositeTitle} and move the result to the input`;
+  }
+};
+
+const updateFormatSuggestion = (inputValue, transformerId) => {
+  if (!formatSuggestion) return;
+  const guess = detectFormat(inputValue);
+  if (!guess || guess.id === transformerId) {
+    formatSuggestion.hidden = true;
+    formatSuggestion.textContent = "";
+    return;
+  }
+  formatSuggestion.hidden = false;
+  formatSuggestion.textContent = "";
+  const text = document.createElement("span");
+  text.textContent = `This looks like ${guess.label}.`;
+  const switchBtn = document.createElement("button");
+  switchBtn.type = "button";
+  switchBtn.className = "outline";
+  switchBtn.textContent = `Switch to ${msg[guess.id].title}`;
+  switchBtn.addEventListener("click", () => selectTransformer(guess.id));
+  formatSuggestion.append(text, switchBtn);
+};
+
+const updateFormMessage = ({ transformerId, title, description, inputLabel, outputLabel }) => {
+  const entry = msg[transformerId] || msg.defaultConverter;
+  title.textContent = entry.title;
+  description.textContent = entry.description;
+  inputLabel.textContent = entry.inputLabel;
+  outputLabel.textContent = entry.outputLabel;
+};
+
+const updateForm = async ({ inputValue }) => {
   const transformerId = transformerStatus.get();
   if (
     !transformerId ||
@@ -87,57 +123,128 @@ const updateForm = ({ inputValue }) => {
   )
     return;
 
-  updateFormMessage({
-    transformerId,
-    title,
-    description,
-    inputLabel,
-    outputLabel,
-  });
+  updateFormMessage({ transformerId, title, description, inputLabel, outputLabel });
+  updateSwapButton(transformerId);
+  updateFormatSuggestion(inputValue, transformerId);
 
-  executeConverter({
+  await executeConverter({
     mode: transformerId,
     str: inputValue,
-    transformers: transformers,
-    outputTextarea: outputTextarea,
+    transformers,
+    outputTextarea,
   });
 };
 
-function createMenu(data) {
-  const output = document.querySelector("#stMenu");
-  if (!output || !data) return;
-  const parser = new DOMParser();
+const selectTransformer = (id) => {
+  transformerStatus.set(id);
+  menu?.setActive(id);
+  setHash(id);
+  updateForm({ inputValue: inputTextarea?.value ?? "" });
+};
 
-  // Create menu
-  const menuHtml = () => {
-    const _data = Object.keys(data);
-    let listItems = "";
-    _data.forEach((transformerId) => {
-      listItems += `<option value="${transformerId}">${msg[transformerId].title}</option>`;
-    });
-    const dropdownStructure = `<select><option value="" disabled selected>Select Transformer</option>${listItems}</select>`;
-    return dropdownStructure;
-  };
+const swapDirection = () => {
+  const oppositeId = swapBtn?.dataset.oppositeId;
+  if (!oppositeId || !inputTextarea || !outputTextarea) return;
+  inputTextarea.value = outputTextarea.value;
+  selectTransformer(oppositeId);
+};
 
-  // Init Event
-  const parsedHtml = parser.parseFromString(menuHtml(), "text/html");
-  const selector = parsedHtml.querySelector("select");
-  selector.addEventListener("change", (event) => {
-    console.log("change");
-    transformerStatus.set(event.target.value);
-    if (inputTextarea) {
-      updateForm({ inputValue: inputTextarea.value });
+const applyTheme = (theme) => {
+  document.documentElement.dataset.theme = theme;
+  if (themeToggleBtn) {
+    themeToggleBtn.setAttribute("aria-pressed", String(theme === "light"));
+    themeToggleBtn.setAttribute(
+      "aria-label",
+      theme === "light" ? "Switch to dark theme" : "Switch to light theme"
+    );
+  }
+};
+
+const readStoredTheme = () => {
+  try {
+    return localStorage.getItem(THEME_STORAGE_KEY);
+  } catch {
+    // Private mode / storage disabled: fall back to the system preference.
+    return null;
+  }
+};
+
+const initTheme = () => {
+  // The inline bootstrap in <head> already painted the right theme; this only
+  // takes ownership of it and falls back to the OS preference on first visit.
+  const systemTheme = window.matchMedia("(prefers-color-scheme: light)").matches
+    ? "light"
+    : "dark";
+  applyTheme(readStoredTheme() || document.documentElement.dataset.theme || systemTheme);
+
+  themeToggleBtn?.addEventListener("click", () => {
+    const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
+    applyTheme(next);
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, next);
+    } catch {
+      // Nothing to do: the theme still applies for this session.
     }
   });
+};
 
-  output.appendChild(selector);
-}
+// On phones the action bar is pinned to the bottom of the screen (thumb zone).
+// The SEO landing pages put a long article above the tool, so pin it only while
+// the tool is actually on screen instead of floating it over the prose.
+const initPinnedActions = () => {
+  if (!actionsBar || !form) return;
+  if (typeof IntersectionObserver !== "function") {
+    // No observer: pinning it always is the safe fallback, since the home page
+    // (where the form fills the viewport) is the common case.
+    actionsBar.classList.add("is-pinned");
+    return;
+  }
+  const observer = new IntersectionObserver(
+    ([entry]) => actionsBar.classList.toggle("is-pinned", entry.isIntersecting),
+    { rootMargin: "0px 0px -3rem 0px" }
+  );
+  observer.observe(form);
+};
+
+const initEvents = () => {
+  const submitForm = (event) => {
+    event.preventDefault();
+    updateForm({ inputValue: inputTextarea?.value ?? "" });
+  };
+
+  const debouncedUpdate = debounce((value) => updateForm({ inputValue: value }), 150);
+
+  copyValue({ btn: copyOutputBtn, outputCopy: outputTextarea });
+  resetInput({ btn: resetInputBtn, inputReset: inputTextarea, outputReset: outputTextarea });
+
+  swapBtn?.addEventListener("click", swapDirection);
+  form?.addEventListener("submit", submitForm);
+  inputTextarea?.addEventListener("input", (event) => debouncedUpdate(event.target.value));
+};
+
+let menu;
 
 function app() {
-  transformerStatus.set();
-  createMenu(transformers);
-  updateForm({ inputValue: inputTextarea.value });
+  menu = createCommandMenu({
+    container: menuContainer,
+    transformers,
+    msg,
+    onSelect: (id) => selectTransformer(id),
+  });
+
+  initTheme();
+
+  const initialId = idFromHash() || Object.keys(transformers)[0];
+  transformerStatus.set(initialId);
+  menu?.setActive(initialId);
+  updateForm({ inputValue: inputTextarea?.value ?? "" });
   initEvents();
+  initPinnedActions();
+
+  window.addEventListener("hashchange", () => {
+    const id = idFromHash();
+    if (id && id !== transformerStatus.get()) selectTransformer(id);
+  });
 }
 
 export default app;

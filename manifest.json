@@ -1,0 +1,18 @@
+{
+  "name": "String Transformer",
+  "short_name": "StrTransform",
+  "description": "Transform text to camelCase, snake_case, Base64, hex, Morse, SHA-256 and 50+ other formats, instantly and offline.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#11191f",
+  "theme_color": "#1095c1",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

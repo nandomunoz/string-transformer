@@ -1,75 +1,148 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>String Transformers</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@1.*/css/pico.min.css"
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark light" />
+    <title>String Transformer — Convert Text to Any Format Online</title>
+    <meta
+      name="description"
+      content="Free online tool to transform text: camelCase, snake_case, kebab-case, Base64, hex, URL encoding, Morse code, SHA-256, ROT13 and 50+ other formats. Runs entirely in your browser, works offline."
     />
+    <link rel="canonical" href="https://nandovejer.github.io/string-transformer/" />
+    <meta name="theme-color" content="#161b22" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="manifest" href="manifest.json" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="String Transformer — Convert Text to Any Format Online" />
+    <meta
+      property="og:description"
+      content="Transform text to camelCase, Base64, hex, Morse code, SHA-256 and 50+ other formats, instantly and offline."
+    />
+    <meta property="og:url" content="https://nandovejer.github.io/string-transformer/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="String Transformer — Convert Text to Any Format Online" />
+    <meta
+      name="twitter:description"
+      content="Transform text to camelCase, Base64, hex, Morse code, SHA-256 and 50+ other formats, instantly and offline."
+    />
+
+    <link rel="stylesheet" href="src/css/vendor/pico.min.css" />
     <link rel="stylesheet" href="style.css" />
+    <!-- st:theme-bootstrap -->
+    <script>
+      // Applies the saved theme before first paint, so reloading in light mode
+      // doesn't flash the dark palette. app.js owns it from then on.
+      (function () {
+        try {
+          var stored = localStorage.getItem("st-theme");
+          var prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+          document.documentElement.dataset.theme = stored || (prefersLight ? "light" : "dark");
+        } catch (err) {
+          document.documentElement.dataset.theme = "dark";
+        }
+      })();
+    </script>
+    <!-- /st:theme-bootstrap -->
     <script type="module" src="index.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "String Transformer",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "url": "https://nandovejer.github.io/string-transformer/",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "description": "Free online tool to transform text between camelCase, snake_case, Base64, hex, Morse code, SHA-256 and 50+ other formats."
+      }
+    </script>
   </head>
   <body>
-    <header>
-      <hgroup>
-        <h1>String Transformer</h1>
-        <h2>Take your text to the next level</h2>
-      </hgroup>
-      <nav id="stMenu"></nav>
+    <a class="st-skip-link" href="#input">Skip to the converter</a>
+    <!-- st:header -->
+    <header class="st-appbar">
+      <div class="st-appbar-inner container">
+        <h1 class="st-brand">String Transformer</h1>
+        <p class="st-tagline">50+ text formats, converted as you type</p>
+        <nav id="stMenu" aria-label="Transformer selector"></nav>
+        <div class="st-appbar-actions">
+          <button
+            id="themeToggleBtn"
+            type="button"
+            class="st-icon-btn"
+            aria-label="Toggle light/dark theme"
+          >
+            <span aria-hidden="true">🌓</span>
+            <span class="st-icon-btn-label">Theme</span>
+          </button>
+        </div>
+      </div>
     </header>
-    <main>
-      <article>
-        <form id="formApp" action="">
-          <hgroup>
-            <h3>Mode <ins class="js-st-titleSelected">No selected</ins></h3>
-            <p class="js-st-descriptionSelected">Select a transformer please</p>
-          </hgroup>
-          <fieldset>
-            <label for="input">Input</label>
-            <textarea
-              placeholder="input"
-              name=""
-              id="input"
-              cols="30"
-              rows="10"
-            ></textarea>
-            <span role="alert" tabindex="0" aria-labelledby="input" hidden>
-              The format is wrong</span
-            >
-            <button id="resetInputBtn" aria-labelledby="input">
-              Reset input
-            </button>
-          </fieldset>
-          <fieldset>
-            <label for="output">Output</label>
-            <textarea
-              placeholder="output"
-              name=""
-              id="output"
-              cols="30"
-              rows="10"
-              disabled
-            ></textarea>
-            <button id="copyOutputBtn" aria-labelledby="output">
-              Copy Output
-            </button>
-          </fieldset>
-          <menu>
-            <li><button type="submit">Transform String</button></li>
-          </menu>
-        </form>
-      </article>
+    <!-- /st:header -->
+    <main class="container">
+      <!-- st:app -->
+      <form id="formApp" class="st-workspace" action="">
+        <header class="st-mode">
+          <span class="st-mode-eyebrow">Mode</span>
+          <h2 class="st-mode-title js-st-titleSelected">No mode selected</h2>
+          <p class="st-mode-desc js-st-descriptionSelected">Select a transformer please</p>
+        </header>
+        <div class="st-panels-frame">
+          <div class="st-panels">
+            <section class="st-panel">
+              <div class="st-panel-head">
+                <label class="st-panel-label" for="input">Input</label>
+                <small class="st-char-count" id="inputCount">0 characters</small>
+              </div>
+              <textarea
+                id="input"
+                placeholder="Type or paste your text…"
+                rows="6"
+                autocapitalize="off"
+                autocorrect="off"
+                spellcheck="false"
+                aria-describedby="formatAlert"
+              ></textarea>
+              <p class="st-suggestion" id="formatSuggestion" hidden></p>
+              <p class="st-alert" role="alert" id="formatAlert" tabindex="-1" hidden></p>
+            </section>
+            <section class="st-panel st-panel--output">
+              <div class="st-panel-head">
+                <label class="st-panel-label" for="output">Output</label>
+                <small class="st-char-count" id="outputCount">0 characters</small>
+              </div>
+              <textarea
+                id="output"
+                placeholder="The result appears here as you type"
+                rows="6"
+                readonly
+                aria-live="polite"
+              ></textarea>
+            </section>
+          </div>
+        </div>
+        <div class="st-actions">
+          <button id="swapBtn" type="button" class="st-action-secondary" hidden>
+            <span aria-hidden="true">⇄</span> Swap
+          </button>
+          <button id="resetInputBtn" type="button" class="st-action-secondary">Clear</button>
+          <button id="copyOutputBtn" type="button" class="st-action-primary">Copy result</button>
+        </div>
+      </form>
+      <!-- /st:app -->
     </main>
-    <footer>
+    <!-- st:footer -->
+    <footer class="container">
       <small
         >Project by
-        <a title="Author Site" href="https://github.com/nandovejer"
-          >Nando Muñoz</a
-        >
-        - Code licensed <a title="licensed explained" href="#">MIT</a></small
+        <a title="Author Site" href="https://github.com/nandovejer">Nando Muñoz</a>
+        · Code licensed <a title="MIT License" href="https://opensource.org/licenses/MIT">MIT</a>
+        · <a href="t/">Browse all transformers</a></small
       >
     </footer>
+    <!-- /st:footer -->
   </body>
 </html>

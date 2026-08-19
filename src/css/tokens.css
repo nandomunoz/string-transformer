@@ -1,0 +1,317 @@
+/*
+ * Design tokens. Layered on top of Pico v1: we override Pico's own variables
+ * so its components (dialog, table, details, links) inherit this palette, and
+ * expose `--st-*` tokens for the app layer.
+ *
+ * IMPORTANT — never use Pico's `--color` inside the app layer. Pico redefines
+ * it locally on `[role=button], button, input[type=button|reset|submit]`
+ * (to `--primary-inverse`), so `color: var(--color)` on a button silently
+ * resolves to the accent's contrast colour instead of the body text colour.
+ * Use `--st-text` / `--st-text-muted`, which nothing shadows.
+ *
+ * Every foreground/background pair below is checked against WCAG 2.2:
+ * 4.5:1 for text, 3:1 for control borders and focus rings.
+ */
+
+:root {
+  /* --- Pico overrides ------------------------------------------------- */
+  --border-radius: 0.75rem;
+  --spacing: 1rem;
+  --font-size: 100%;
+  --line-height: 1.55;
+  --form-element-spacing-vertical: 0.75rem;
+  --form-element-spacing-horizontal: 0.875rem;
+  --transition: 0.15s ease;
+
+  /* --- Space scale ---------------------------------------------------- */
+  --st-space-2xs: 0.25rem;
+  --st-space-xs: 0.5rem;
+  --st-space-sm: 0.75rem;
+  --st-space-md: 1rem;
+  --st-space-lg: clamp(1.25rem, 0.9rem + 1.6vw, 2rem);
+  --st-space-xl: clamp(2rem, 1.4rem + 3vw, 3.5rem);
+
+  /* --- Type scale ----------------------------------------------------- */
+  --st-text-xs: 0.75rem;
+  --st-text-sm: 0.875rem;
+  /* Never below 16px on inputs: iOS Safari zooms the page otherwise. */
+  --st-text-base: 1rem;
+  --st-text-lg: clamp(1.05rem, 0.98rem + 0.35vw, 1.25rem);
+  --st-text-xl: clamp(1.35rem, 1.15rem + 1vw, 1.85rem);
+
+  /* Both textareas hold machine-readable strings (base64, hex, morse...),
+     which are far easier to read and compare in a monospaced face. */
+  --st-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  /* --- Shape ---------------------------------------------------------- */
+  --st-radius-sm: 0.5rem;
+  --st-radius: 0.875rem;
+  --st-radius-lg: 1.25rem;
+
+  /* --- Layout --------------------------------------------------------- */
+  --st-content-width: 1120px;
+  /* WCAG 2.2 target-size minimum; also the comfortable thumb target. */
+  --st-tap-target: 2.75rem;
+
+  /* --- Motion --------------------------------------------------------- */
+  --st-ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --st-duration: 180ms;
+}
+
+/* --- Light palette ---------------------------------------------------- */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  --st-surface-sunken: #f4f6f9; /* page background */
+  --st-surface: #ffffff; /* cards */
+  --st-surface-raised: #ffffff; /* dropdown / dialog */
+  --st-field: #f6f8fa; /* input background */
+  --st-output: rgba(11, 110, 145, 0.1); /* result background */
+
+  --st-text: #111a24; /* 17.5:1 on the card */
+  --st-text-muted: #54616e; /* 6.3:1 on the card */
+
+  --st-accent: #0b6e91; /* filled controls */
+  --st-accent-hover: #095b79;
+  --st-accent-contrast: #ffffff; /* 5.8:1 on the accent */
+  --st-accent-text: #0a5f7e; /* 7.1:1 on the card */
+  --st-accent-soft: rgba(11, 110, 145, 0.1);
+
+  --st-danger: #b3261e; /* 5.5:1 on its own soft background */
+  --st-danger-soft: rgba(179, 38, 30, 0.1);
+
+  --st-border-subtle: rgba(15, 23, 42, 0.13); /* decorative separators */
+  --st-border-strong: rgba(15, 23, 42, 0.46); /* 3.0:1 — control outlines */
+
+  --st-shadow-overlay: 0 1.5rem 3rem -1rem rgba(15, 23, 42, 0.22);
+  --st-scrim: rgba(15, 23, 42, 0.45);
+}
+
+/* --- Dark palette ----------------------------------------------------- */
+@media only screen and (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --st-surface-sunken: #0d1117;
+    --st-surface: #161b22;
+    --st-surface-raised: #1f242d;
+    --st-field: #0f141b;
+    --st-output: rgba(76, 184, 224, 0.13);
+
+    --st-text: #e6edf3; /* 14.6:1 on the card */
+    --st-text-muted: #a2b1c0; /* 7.9:1 on the card */
+
+    --st-accent: #4cb8e0;
+    --st-accent-hover: #6ecbee;
+    --st-accent-contrast: #04141c; /* 8.2:1 on the accent */
+    --st-accent-text: #6ecbee; /* 9.4:1 on the card */
+    --st-accent-soft: rgba(76, 184, 224, 0.13);
+
+    --st-danger: #ff9a9a; /* 7.0:1 on its own soft background */
+    --st-danger-soft: rgba(255, 92, 92, 0.16);
+
+    --st-border-subtle: rgba(255, 255, 255, 0.11);
+    --st-border-strong: rgba(255, 255, 255, 0.34); /* 3.1:1 */
+
+    --st-shadow-overlay: 0 1.5rem 3rem -1rem rgba(0, 0, 0, 0.65);
+    --st-scrim: rgba(0, 0, 0, 0.6);
+  }
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --st-surface-sunken: #0d1117;
+  --st-surface: #161b22;
+  --st-surface-raised: #1f242d;
+  --st-field: #0f141b;
+  --st-output: rgba(76, 184, 224, 0.13);
+
+  --st-text: #e6edf3;
+  --st-text-muted: #a2b1c0;
+
+  --st-accent: #4cb8e0;
+  --st-accent-hover: #6ecbee;
+  --st-accent-contrast: #04141c;
+  --st-accent-text: #6ecbee;
+  --st-accent-soft: rgba(76, 184, 224, 0.13);
+
+  --st-danger: #ff9a9a;
+  --st-danger-soft: rgba(255, 92, 92, 0.16);
+
+  --st-border-subtle: rgba(255, 255, 255, 0.11);
+  --st-border-strong: rgba(255, 255, 255, 0.34);
+
+  --st-shadow-overlay: 0 1.5rem 3rem -1rem rgba(0, 0, 0, 0.65);
+  --st-scrim: rgba(0, 0, 0, 0.6);
+}
+
+/*
+ * Feed the tokens back into Pico's variables, in every theme block Pico itself
+ * uses, so its own components stop painting from the stock palette. These sit
+ * after pico.min.css in the cascade at equal specificity, so they win.
+ */
+:root,
+[data-theme="light"],
+[data-theme="dark"] {
+  --background-color: var(--st-surface-sunken);
+  --color: var(--st-text);
+  --h1-color: var(--st-text);
+  --h2-color: var(--st-text);
+  --h3-color: var(--st-text);
+  --h4-color: var(--st-text);
+  --h5-color: var(--st-text);
+  --h6-color: var(--st-text);
+  --muted-color: var(--st-text-muted);
+  --muted-border-color: var(--st-border-subtle);
+  --primary: var(--st-accent);
+  --primary-hover: var(--st-accent-hover);
+  --primary-inverse: var(--st-accent-contrast);
+  --primary-focus: var(--st-accent-soft);
+  --del-color: var(--st-danger);
+  --card-background-color: var(--st-surface);
+  --card-border-color: var(--st-border-subtle);
+  --card-sectionning-background-color: var(--st-surface-raised);
+  --table-border-color: var(--st-border-subtle);
+  --form-element-background-color: var(--st-field);
+  --form-element-border-color: var(--st-border-strong);
+  --form-element-color: var(--st-text);
+  --form-element-placeholder-color: var(--st-text-muted);
+  --form-element-active-background-color: var(--st-field);
+  --form-element-active-border-color: var(--st-accent);
+  --form-element-focus-color: var(--st-accent);
+  --code-background-color: var(--st-field);
+  --code-color: var(--st-text-muted);
+  --accordion-border-color: var(--st-border-subtle);
+  --accordion-close-summary-color: var(--st-text);
+  --accordion-open-summary-color: var(--st-text);
+}
+
+@media only screen and (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background-color: var(--st-surface-sunken);
+    --color: var(--st-text);
+    --h1-color: var(--st-text);
+    --h2-color: var(--st-text);
+    --h3-color: var(--st-text);
+    --h4-color: var(--st-text);
+    --h5-color: var(--st-text);
+    --h6-color: var(--st-text);
+    --muted-color: var(--st-text-muted);
+    --muted-border-color: var(--st-border-subtle);
+    --primary: var(--st-accent);
+    --primary-hover: var(--st-accent-hover);
+    --primary-inverse: var(--st-accent-contrast);
+    --primary-focus: var(--st-accent-soft);
+    --del-color: var(--st-danger);
+    --card-background-color: var(--st-surface);
+    --card-border-color: var(--st-border-subtle);
+    --card-sectionning-background-color: var(--st-surface-raised);
+    --table-border-color: var(--st-border-subtle);
+    --form-element-background-color: var(--st-field);
+    --form-element-border-color: var(--st-border-strong);
+    --form-element-color: var(--st-text);
+    --form-element-placeholder-color: var(--st-text-muted);
+    --form-element-active-background-color: var(--st-field);
+    --form-element-active-border-color: var(--st-accent);
+    --form-element-focus-color: var(--st-accent);
+    --code-background-color: var(--st-field);
+    --code-color: var(--st-text-muted);
+    --accordion-border-color: var(--st-border-subtle);
+    --accordion-close-summary-color: var(--st-text);
+    --accordion-open-summary-color: var(--st-text);
+  }
+}
+
+/* --- Base ------------------------------------------------------------- */
+
+body {
+  background-color: var(--st-surface-sunken);
+  color: var(--st-text);
+  /* Small viewport units: the initial value, so the layout doesn't jump when
+     mobile browser chrome collapses on scroll. */
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  /* Notch / rounded-corner phones in landscape. */
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  -webkit-text-size-adjust: 100%;
+}
+
+body > main {
+  flex: 1 0 auto;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--st-accent-text);
+}
+
+/* Pico's default focus ring is a soft box-shadow that disappears on dark
+   surfaces; a real outline is both clearer and always visible. */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--st-accent);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+button,
+[role="button"],
+input[type="checkbox"],
+input[type="radio"] {
+  touch-action: manipulation;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Keyboard users get the skip link back as soon as it's focused. */
+.st-skip-link {
+  position: absolute;
+  z-index: 100;
+  top: var(--st-space-xs);
+  left: var(--st-space-xs);
+  padding: var(--st-space-xs) var(--st-space-md);
+  border-radius: var(--st-radius-sm);
+  background-color: var(--st-accent);
+  color: var(--st-accent-contrast);
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform var(--st-duration) var(--st-ease);
+}
+
+.st-skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

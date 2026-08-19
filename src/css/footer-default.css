@@ -1,4 +1,38 @@
 body > footer {
-    padding: var(--core-space);
-    text-align: center;
+  padding: var(--st-space-lg) var(--st-space-md);
+  /* Clears the sticky mobile action bar plus the home indicator. */
+  padding-bottom: calc(var(--st-space-lg) + env(safe-area-inset-bottom));
+  text-align: center;
+  font-size: var(--st-text-sm);
+  color: var(--st-text-muted);
+}
+
+body > footer a {
+  color: inherit;
+}
+
+/* Easter egg: hidden password generator trigger. Barely visible until hovered,
+   but a real 44px target so it stays tappable on touch. */
+.st-easter-egg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--st-tap-target);
+  height: var(--st-tap-target);
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: currentColor;
+  font-size: 0.7rem;
+  line-height: 1;
+  opacity: 0.2;
+  cursor: pointer;
+  transition: opacity var(--st-duration) var(--st-ease);
+  vertical-align: middle;
+}
+
+.st-easter-egg:hover,
+.st-easter-egg:focus-visible {
+  opacity: 0.75;
 }
