@@ -17,7 +17,7 @@ This project is ideal for developers who want to:
 
 ## 🚀 **Live Demo**
 
-[https://nandovejer.github.io/string-transformer/](https://nandovejer.github.io/string-transformer/)
+[https://nandomunoz.github.io/string-transformer/](https://nandomunoz.github.io/string-transformer/)
 
 Installable as a PWA and works offline once visited.
 

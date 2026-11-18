@@ -1,183 +1,183 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/trim/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/trim/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/lower-case/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/lower-case/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/upper-case/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/upper-case/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/camel-case/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/camel-case/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/pascal-case/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/pascal-case/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/snake-case/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/snake-case/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/screaming-snake-case/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/screaming-snake-case/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/camel-snake-case/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/camel-snake-case/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/kebab-case/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/kebab-case/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/screaming-kebab-case/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/screaming-kebab-case/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/train-case/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/train-case/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/spongebob-case/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/spongebob-case/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/title-case/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/title-case/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/sentence-case/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/sentence-case/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/dot-case/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/dot-case/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/path-case/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/path-case/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/random-case/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/random-case/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/binary2-utf8/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/binary2-utf8/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/utf82binary/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/utf82binary/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/base64-to-ascii/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/base64-to-ascii/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/ascii-to-base64/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/ascii-to-base64/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/text2-morse/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/text2-morse/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/morse2-text/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/morse2-text/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/escape-html2-string/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/escape-html2-string/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/escape-string2-html/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/escape-string2-html/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/reverse-text/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/reverse-text/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/upside-down-text/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/upside-down-text/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/url-encode/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/url-encode/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/url-decode/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/url-decode/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/hex-encode/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/hex-encode/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/hex-decode/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/hex-decode/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/base64-url-encode/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/base64-url-encode/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/base64-url-decode/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/base64-url-decode/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/unicode-escape/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/unicode-escape/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/unicode-unescape/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/unicode-unescape/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/json-escape/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/json-escape/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/json-unescape/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/json-unescape/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/slugify/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/slugify/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/sha1/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/sha1/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/sha256/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/sha256/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/sha512/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/sha512/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/jwt-decode/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/jwt-decode/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/count-stats/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/count-stats/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/rot13/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/rot13/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/atbash/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/atbash/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/rot47/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/rot47/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/text-to-nato/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/text-to-nato/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/nato-to-text/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/nato-to-text/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/text-to-leet/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/text-to-leet/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/small-caps/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/small-caps/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/fullwidth-text/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/fullwidth-text/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/zalgo-text/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/zalgo-text/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/remove-extra-spaces/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/remove-extra-spaces/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/remove-empty-lines/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/remove-empty-lines/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/sort-lines/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/sort-lines/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/sort-lines-desc/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/sort-lines-desc/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/dedupe-lines/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/dedupe-lines/</loc>
   </url>
   <url>
-    <loc>https://nandovejer.github.io/string-transformer/t/reverse-lines/</loc>
+    <loc>https://nandomunoz.github.io/string-transformer/t/reverse-lines/</loc>
   </url>
 </urlset>

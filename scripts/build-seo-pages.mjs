@@ -25,7 +25,7 @@ const OUTPUT_DIR = path.join(ROOT_DIR, "t");
 
 // Relative paths (not a hardcoded absolute prefix) so the generated pages work
 // under any subpath/domain and can be tested with a plain static server.
-const BASE_URL = "https://nandovejer.github.io/string-transformer/";
+const BASE_URL = "https://nandomunoz.github.io/string-transformer/";
 const DEFAULT_SAMPLE = "Hello World";
 
 const esc = (str) => escapeHtml2String(String(str));
