@@ -187,7 +187,7 @@ function renderFooter(browseHref) {
   return `    <footer class="container">
       <small
         >Project by
-        <a title="Author Site" href="https://github.com/nandovejer">Nando Mu\u00F1oz</a>
+        <a title="Author Site" href="https://github.com/nandomunoz">Nando Mu\u00F1oz</a>
         \u00B7 Code licensed <a title="MIT License" href="https://opensource.org/licenses/MIT">MIT</a>${browseLink}</small
       >
     </footer>`;

@@ -79,7 +79,7 @@ Installable as a PWA and works offline once visited.
 ## 🛠️ Development
 
 ```bash
-git clone https://github.com/nandovejer/string-transformer
+git clone https://github.com/nandomunoz/string-transformer
 cd string-transformer
 pnpm serve       # static files, any local server works
 pnpm test             # node --test — no dependencies required
