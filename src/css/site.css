@@ -458,6 +458,24 @@
   justify-content: center;
 }
 
+/* --- Home FAQ: title beside the questions on a wide screen ------------------------ */
+
+.faq {
+  display: grid;
+  gap: 1.5rem 4rem;
+  align-items: start;
+}
+
+.faq .section-title {
+  text-align: left;
+}
+
+@media (width >= 56.25em) {
+  .faq {
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+  }
+}
+
 /* --- 8. Tally ------------------------------------------------------------------ */
 
 .tally {

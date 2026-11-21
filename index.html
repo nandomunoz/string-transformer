@@ -59,6 +59,78 @@
         "description": "Free online tool to transform text between camelCase, snake_case, Base64, hex, Morse code, SHA-256 and 50+ other formats."
       }
     </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is my text uploaded anywhere?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Every conversion runs in your browser, in plain JavaScript. Nothing you type is sent to a server, logged or stored, so it is safe for tokens, keys and drafts."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does it work offline?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. After your first visit the app is cached, so it keeps working without a connection. You can also install it from the Install app button and open it like any other app."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does it handle accents, emoji and other alphabets?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Encoders and decoders work on real UTF-8 bytes, so characters like á, ñ, € and emoji convert correctly, not just plain ASCII."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I convert the result back?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use the Swap button. It switches to the opposite transformer, for example Base64 decode after Base64 encode, and moves the result into the input."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can it tell which format my text is in?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Often, yes. If your input looks like Base64, hex, a JWT or Morse code, the converter suggests the matching transformer with one click."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I use SHA-256 and the other hashes for passwords?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. SHA-1, SHA-256 and SHA-512 are fast checksums, fine for comparing files or text but not for storing passwords. Use a slow password hash such as Argon2 or bcrypt for that."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is it free? Is there a limit?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It is free, with no sign-up and no limit on how much text you convert. The code is MIT licensed and lives on GitHub."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is there a command-line version?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. The repository includes a CLI: run node bin/cli.js with a format and your text, or pipe text in. Run it with --list to see every format."
+            }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <a class="st-skip-link" href="#input">Skip to the converter</a>
@@ -243,6 +315,45 @@
             <div><dt>Bytes uploaded</dt><dd>0</dd></div>
             <div><dt>Price</dt><dd>Free</dd></div>
           </dl>
+        </div>
+      </section>
+      <section class="sec" id="faq" aria-labelledby="faq-title">
+        <div class="wrap faq">
+          <h2 class="section-title" id="faq-title">Frequently asked <em>questions</em></h2>
+          <div class="faq-list">
+            <details>
+              <summary>Is my text uploaded anywhere?</summary>
+              <p>No. Every conversion runs in your browser, in plain JavaScript. Nothing you type is sent to a server, logged or stored, so it is safe for tokens, keys and drafts.</p>
+            </details>
+            <details>
+              <summary>Does it work offline?</summary>
+              <p>Yes. After your first visit the app is cached, so it keeps working without a connection. You can also install it from the Install app button and open it like any other app.</p>
+            </details>
+            <details>
+              <summary>Does it handle accents, emoji and other alphabets?</summary>
+              <p>Yes. Encoders and decoders work on real UTF-8 bytes, so characters like á, ñ, € and emoji convert correctly, not just plain ASCII.</p>
+            </details>
+            <details>
+              <summary>How do I convert the result back?</summary>
+              <p>Use the Swap button. It switches to the opposite transformer, for example Base64 decode after Base64 encode, and moves the result into the input.</p>
+            </details>
+            <details>
+              <summary>Can it tell which format my text is in?</summary>
+              <p>Often, yes. If your input looks like Base64, hex, a JWT or Morse code, the converter suggests the matching transformer with one click.</p>
+            </details>
+            <details>
+              <summary>Can I use SHA-256 and the other hashes for passwords?</summary>
+              <p>No. SHA-1, SHA-256 and SHA-512 are fast checksums, fine for comparing files or text but not for storing passwords. Use a slow password hash such as Argon2 or bcrypt for that.</p>
+            </details>
+            <details>
+              <summary>Is it free? Is there a limit?</summary>
+              <p>It is free, with no sign-up and no limit on how much text you convert. The code is MIT licensed and lives on GitHub.</p>
+            </details>
+            <details>
+              <summary>Is there a command-line version?</summary>
+              <p>Yes. The repository includes a CLI: run node bin/cli.js with a format and your text, or pipe text in. Run it with --list to see every format.</p>
+            </details>
+          </div>
         </div>
       </section>
     </main>

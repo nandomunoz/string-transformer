@@ -56,6 +56,24 @@ test("the directory section exists and counts the same transformers", () => {
   assert.match(html, new RegExp(`All ${ids.length} \u2192`));
 });
 
+test("the FAQ section sits last, before the footer, and matches its JSON-LD", () => {
+  const faqAt = html.indexOf('id="faq"');
+  assert.ok(faqAt > html.indexOf('aria-label="In numbers"'), "FAQ must come after the tally");
+  assert.ok(faqAt < html.indexOf("<!-- st:footer -->"), "FAQ must come before the footer");
+
+  const shown = [...html.matchAll(/<summary>([^<]+)<\/summary>/g)].map((m) =>
+    m[1].replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+  );
+  const ld = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+    .map((m) => JSON.parse(m[1]))
+    .find((data) => data["@type"] === "FAQPage");
+  assert.ok(ld, "FAQPage JSON-LD not found");
+  assert.deepEqual(
+    ld.mainEntity.map((q) => q.name),
+    shown
+  );
+});
+
 test("LUZ is the only design system: no Pico left in the app", async () => {
   const files = ["index.html", "sw.js", "style.css", "scripts/build-seo-pages.mjs"];
   for (const dir of ["src/css", "src/js/modules", "src/js/app"]) {

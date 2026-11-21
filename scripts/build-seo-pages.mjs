@@ -252,7 +252,9 @@ ${indentBlock(shell.app, 10)}
             </div>
             <div>
               <h2>Frequently asked questions</h2>
+              <div class="faq-list">
 ${renderFaqHtml(faqs)}
+              </div>
             </div>
 ${renderRelatedLinks({ id, entry, pagesById })}
           </article>
