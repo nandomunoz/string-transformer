@@ -7,9 +7,6 @@
 // An optional filter box (#dirSearch) narrows it as you type: it matches the
 // title, the id and the category name, so "encoding" shows the whole group.
 
-// Keep in sync with the 40.0625em breakpoint in site.css.
-const WIDE_QUERY = "(width >= 40.0625em)";
-
 function createDirectory({ container, transformers, msg }) {
   if (!container) return;
 
@@ -24,9 +21,9 @@ function createDirectory({ container, transformers, msg }) {
     groups.get(category).push({ id, title: entry.title });
   });
 
-  // Every group is open on a wide screen and folded on a phone, where 58 links
-  // would otherwise make the page endless.
-  const openByDefault = window.matchMedia(WIDE_QUERY).matches;
+  // Every group starts open, on every screen: the point of the section is to
+  // see the formats. A reader can still fold a group with its heading.
+  const openByDefault = true;
   const fragment = document.createDocumentFragment();
   // One record per group, so filtering never has to query the DOM again.
   const rendered = [];

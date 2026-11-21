@@ -337,7 +337,7 @@
   display: none;
 }
 
-/* Plus / minus: tells a phone user the folded groups open. */
+/* Plus / minus: a group can be folded from its heading. */
 .dir summary::after {
   content: "+";
   margin-inline-start: 0.75rem;
@@ -645,11 +645,6 @@
   .six,
   .dir {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  /* Open on a wide screen: the marker is only for the folded phone groups. */
-  .dir summary::after {
-    display: none;
   }
 
   .actions {
