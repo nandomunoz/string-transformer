@@ -191,6 +191,19 @@
         <div class="wrap">
           <h2 class="section-title" id="formats-title">All <em>58 formats</em></h2>
           <p class="section-sub">Pick one and it loads in the converter above.</p>
+          <div class="dir-search">
+            <label class="sr-only" for="dirSearch">Filter the formats</label>
+            <input
+              id="dirSearch"
+              type="search"
+              placeholder="Filter formats: base64, hash, snake…"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+              aria-controls="directory"
+            />
+            <p class="dir-status" id="dirStatus" role="status" aria-live="polite"></p>
+          </div>
           <div class="dir" id="directory"></div>
         </div>
       </section>

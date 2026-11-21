@@ -50,6 +50,8 @@ test("every in-page link is a section of the page or a real transformer id", () 
 
 test("the directory section exists and counts the same transformers", () => {
   assert.match(html, /id="directory"/);
+  assert.match(html, /<label[^>]*for="dirSearch"/);
+  assert.match(html, /id="dirSearch"/);
   assert.match(html, new RegExp(`All <em>${ids.length} formats</em>`));
   assert.match(html, new RegExp(`All ${ids.length} \u2192`));
 });

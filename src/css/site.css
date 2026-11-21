@@ -276,9 +276,42 @@
 }
 
 .section-sub {
-  margin: 0.6rem 0 clamp(1.75rem, 4vw, 2.5rem);
+  margin: 0.6rem 0 1.5rem;
   font: 400 1rem/1.4 var(--st-sans);
   color: var(--st-ink-2);
+  text-align: center;
+}
+
+.dir-search {
+  max-inline-size: 32rem;
+  margin: 0 auto clamp(1.5rem, 3vw, 2rem);
+}
+
+.dir-search input {
+  display: block;
+  inline-size: 100%;
+  block-size: 3rem;
+  margin: 0;
+  padding: 0 1rem;
+  border: 1px solid var(--st-line-strong);
+  border-radius: 0;
+  background-color: var(--st-field);
+  color: var(--st-ink);
+  /* 1rem exactly: anything smaller makes iOS Safari zoom on focus. */
+  font: 400 var(--st-text-base) var(--st-sans);
+  appearance: none;
+}
+
+.dir-search input::placeholder {
+  color: var(--st-ink-3);
+  opacity: 1;
+}
+
+.dir-status {
+  min-block-size: 1.4em;
+  margin-top: 0.5rem;
+  font: 500 0.85rem/1.4 var(--st-sans);
+  color: var(--st-ink-3);
   text-align: center;
 }
 
