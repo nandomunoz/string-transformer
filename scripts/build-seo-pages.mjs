@@ -121,14 +121,15 @@ function renderRelatedLinks({ id, entry, pagesById }) {
   const items = related
     .map(
       (page) =>
-        `          <li><a href="../${page.slug}/">${esc(page.entry.title)}</a></li>`
+        `                <li><a href="../${page.slug}/">${esc(page.entry.title)}</a></li>`
     )
     .join("\n");
-  return `      <h2>Related transformers</h2>
-      <ul>
+  return `            <div>
+              <h2>Related transformers</h2>
+              <ul class="st-seo-links">
 ${items}
-      </ul>
-`;
+              </ul>
+            </div>`;
 }
 
 /**
@@ -159,38 +160,19 @@ function indentBlock(block, spaces) {
     .join("\n");
 }
 
-function renderHeader(prefix) {
-  return `    <header class="st-appbar">
-      <div class="st-appbar-inner container">
-        <p class="st-brand"><a href="${prefix}">String Transformer</a></p>
-        <p class="st-tagline">50+ text formats, converted as you type</p>
-        <nav id="stMenu" aria-label="Transformer selector"></nav>
-        <div class="st-appbar-actions">
-          <button
-            id="themeToggleBtn"
-            type="button"
-            class="st-icon-btn"
-            aria-label="Toggle light/dark theme"
-          >
-            <span aria-hidden="true">\u{1F313}</span>
-            <span class="st-icon-btn-label">Theme</span>
-          </button>
-        </div>
-      </div>
-    </header>`;
-}
-
-function renderFooter(browseHref) {
-  const browseLink = browseHref
-    ? `\n        \u00B7 <a href="${browseHref}">Browse all transformers</a>`
-    : "";
-  return `    <footer class="container">
-      <small
-        >Project by
-        <a title="Author Site" href="https://github.com/nandomunoz">Nando Mu\u00F1oz</a>
-        \u00B7 Code licensed <a title="MIT License" href="https://opensource.org/licenses/MIT">MIT</a>${browseLink}</small
-      >
-    </footer>`;
+/**
+ * The header and footer are written once, in index.html, with links relative
+ * to the site root ("t/camel-case/", "#features"). A generated page lives a
+ * level or two deeper, so every relative link gets the page's way back to the
+ * root put in front of it. Absolute URLs are left alone.
+ * @param {string} html a block extracted from index.html
+ * @param {string} prefix path from the page to the site root, e.g. "../../"
+ */
+function rebaseLinks(html, prefix) {
+  // Only <a> links: `<use href="#i-mark">` points at an icon on the same page.
+  return html.replace(/(<a\b[^>]*?\shref=")([^"]*)"/g, (match, open, href) =>
+    /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(href) ? match : `${open}${prefix}${href}"`
+  );
 }
 
 function renderTransformerPage({
@@ -215,8 +197,8 @@ function renderTransformerPage({
     <title>${esc(pageTitle)} | String Transformer</title>
     <meta name="description" content="${esc(metaDescription)}" />
     <link rel="canonical" href="${BASE_URL}t/${slug}/" />
-    <meta name="theme-color" content="#161b22" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1c1712" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fbf8f2" media="(prefers-color-scheme: light)" />
     <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
     <link rel="manifest" href="../../manifest.json" />
 
@@ -228,7 +210,7 @@ function renderTransformerPage({
     <meta name="twitter:title" content="${esc(pageTitle)}" />
     <meta name="twitter:description" content="${esc(metaDescription)}" />
 
-    <link rel="stylesheet" href="../../src/css/vendor/pico.min.css" />
+    <link rel="stylesheet" href="../../src/css/vendor/luz/luz-tokens.css" />
     <link rel="stylesheet" href="../../style.css" />
 ${indentBlock(shell.themeBootstrap, 4)}
     <script>
@@ -241,28 +223,42 @@ ${renderJsonLd({ id, entry, slug, faqs })}
   </head>
   <body>
     <a class="st-skip-link" href="#input">Skip to the converter</a>
-${renderHeader("../../")}
-    <main class="container">
-      <article class="st-seo-content">
-        <h1>${esc(pageTitle)}</h1>
-        <p>${esc(entry.description)}. Type or paste your text in the tool below to convert it instantly.</p>
-        <div class="st-table-scroll">
-          <table>
-            <thead>
-              <tr><th scope="col">Input</th><th scope="col">Output</th></tr>
-            </thead>
-            <tbody>
-              <tr><td><code>${esc(sample)}</code></td><td><code>${esc(output)}</code></td></tr>
-            </tbody>
-          </table>
+${indentBlock(rebaseLinks(shell.header, "../../"), 4)}
+    <main id="main">
+      <section class="hero hero--page" id="top" aria-labelledby="hero-title">
+        <div class="wrap">
+          <p class="label">${esc(entry.category || "Transformer")}</p>
+          <h1 id="hero-title">${esc(pageTitle)}</h1>
+          <p class="sub">${esc(entry.description)}. Type or paste your text in the tool below to convert it instantly.</p>
+${indentBlock(shell.app, 10)}
         </div>
-        <h2>Frequently asked questions</h2>
+      </section>
+      <section class="sec">
+        <div class="wrap">
+          <article class="st-seo-content">
+            <div>
+              <h2>Example</h2>
+              <div class="st-table-scroll">
+                <table>
+                  <thead>
+                    <tr><th scope="col">Input</th><th scope="col">Output</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>${esc(sample)}</code></td><td><code>${esc(output)}</code></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div>
+              <h2>Frequently asked questions</h2>
 ${renderFaqHtml(faqs)}
+            </div>
 ${renderRelatedLinks({ id, entry, pagesById })}
-      </article>
-${indentBlock(shell.app, 6)}
+          </article>
+        </div>
+      </section>
     </main>
-${renderFooter("../")}
+${indentBlock(rebaseLinks(shell.footer, "../../"), 4)}
   </body>
 </html>
 `;
@@ -280,15 +276,15 @@ function renderHubPage(pagesById, shell) {
     .map(([category, pages]) => {
       const items = pages
         .map(
-          (page) => `            <li><a href="${page.slug}/">${esc(page.entry.title)}</a></li>`
+          (page) => `                <li><a href="${page.slug}/">${esc(page.entry.title)}</a></li>`
         )
         .join("\n");
-      return `        <section>
-          <h2>${esc(category)}</h2>
-          <ul class="st-seo-links">
+      return `            <div>
+              <h2>${esc(category)}</h2>
+              <ul class="st-seo-links">
 ${items}
-          </ul>
-        </section>`;
+              </ul>
+            </div>`;
     })
     .join("\n");
 
@@ -304,28 +300,35 @@ ${items}
       content="Browse every text transformer: case conversion, encoding, ciphers, hashing, dev tools and text utilities. Free, instant, works offline."
     />
     <link rel="canonical" href="${BASE_URL}t/" />
-    <meta name="theme-color" content="#161b22" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1c1712" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fbf8f2" media="(prefers-color-scheme: light)" />
     <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
     <link rel="manifest" href="../manifest.json" />
-    <link rel="stylesheet" href="../src/css/vendor/pico.min.css" />
+    <link rel="stylesheet" href="../src/css/vendor/luz/luz-tokens.css" />
     <link rel="stylesheet" href="../style.css" />
 ${indentBlock(shell.themeBootstrap, 4)}
+    <script type="module" src="../index.js"></script>
   </head>
   <body>
-    <header class="st-appbar">
-      <div class="st-appbar-inner container">
-        <p class="st-brand"><a href="../">String Transformer</a></p>
-      </div>
-    </header>
-    <main class="container">
-      <article class="st-seo-content">
-        <h1>All transformers</h1>
-        <p>Every text transformation String Transformer supports, grouped by category.</p>
+    <a class="st-skip-link" href="#main">Skip to the list</a>
+${indentBlock(rebaseLinks(shell.header, "../"), 4)}
+    <main id="main">
+      <section class="hero hero--page hero--hub" id="top" aria-labelledby="hero-title">
+        <div class="wrap">
+          <p class="label">Text converter</p>
+          <h1 id="hero-title">All <em>transformers</em></h1>
+          <p class="sub">Every text transformation String Transformer supports, grouped by category.</p>
+        </div>
+      </section>
+      <section class="sec">
+        <div class="wrap">
+          <article class="st-seo-content">
 ${sections}
-      </article>
+          </article>
+        </div>
+      </section>
     </main>
-${renderFooter(null)}
+${indentBlock(rebaseLinks(shell.footer, "../"), 4)}
   </body>
 </html>
 `;
@@ -352,6 +355,8 @@ async function main() {
   const shell = {
     app: extractMarkedBlock(indexHtml, "app"),
     themeBootstrap: extractMarkedBlock(indexHtml, "theme-bootstrap"),
+    header: extractMarkedBlock(indexHtml, "header"),
+    footer: extractMarkedBlock(indexHtml, "footer"),
   };
 
   await rm(OUTPUT_DIR, { recursive: true, force: true });

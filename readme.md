@@ -55,7 +55,7 @@ Installable as a PWA and works offline once visited.
 ├── scripts/
 │   └── build-seo-pages.mjs # Generates /t/<slug>/ landing pages + sitemap.xml + robots.txt
 ├── src/
-│   ├── css/                # Pico CSS (vendored) + app styles
+│   ├── css/                # LUZ design system (vendored tokens + ET Book) + app styles
 │   └── js/
 │       ├── core.js         # Transformer registry + strTo({ mode, str, transformers })
 │       ├── app/app.js      # DOM wiring (menu, live transform, theme, swap...)

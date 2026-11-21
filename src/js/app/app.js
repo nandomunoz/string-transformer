@@ -5,8 +5,6 @@ import { copyValue, resetInput, debounce } from "../modules/utils.js";
 import { createCommandMenu } from "../modules/commandMenu.js";
 import { detectFormat } from "../modules/detect.js";
 
-const THEME_STORAGE_KEY = "st-theme";
-
 const form = document.querySelector("#formApp");
 const title = form?.querySelector(".js-st-titleSelected");
 const description = form?.querySelector(".js-st-descriptionSelected");
@@ -23,7 +21,6 @@ const actionsBar = form?.querySelector(".st-actions");
 const inputCount = form?.querySelector("#inputCount");
 const outputCount = form?.querySelector("#outputCount");
 const menuContainer = document.querySelector("#stMenu");
-const themeToggleBtn = document.querySelector("#themeToggleBtn");
 
 const transformerStatus = {
   set: (value = null) => (window.transformerId = value),
@@ -149,45 +146,6 @@ const swapDirection = () => {
   selectTransformer(oppositeId);
 };
 
-const applyTheme = (theme) => {
-  document.documentElement.dataset.theme = theme;
-  if (themeToggleBtn) {
-    themeToggleBtn.setAttribute("aria-pressed", String(theme === "light"));
-    themeToggleBtn.setAttribute(
-      "aria-label",
-      theme === "light" ? "Switch to dark theme" : "Switch to light theme"
-    );
-  }
-};
-
-const readStoredTheme = () => {
-  try {
-    return localStorage.getItem(THEME_STORAGE_KEY);
-  } catch {
-    // Private mode / storage disabled: fall back to the system preference.
-    return null;
-  }
-};
-
-const initTheme = () => {
-  // The inline bootstrap in <head> already painted the right theme; this only
-  // takes ownership of it and falls back to the OS preference on first visit.
-  const systemTheme = window.matchMedia("(prefers-color-scheme: light)").matches
-    ? "light"
-    : "dark";
-  applyTheme(readStoredTheme() || document.documentElement.dataset.theme || systemTheme);
-
-  themeToggleBtn?.addEventListener("click", () => {
-    const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
-    applyTheme(next);
-    try {
-      localStorage.setItem(THEME_STORAGE_KEY, next);
-    } catch {
-      // Nothing to do: the theme still applies for this session.
-    }
-  });
-};
-
 // On phones the action bar is pinned to the bottom of the screen (thumb zone).
 // The SEO landing pages put a long article above the tool, so pin it only while
 // the tool is actually on screen instead of floating it over the prose.
@@ -201,7 +159,9 @@ const initPinnedActions = () => {
   }
   const observer = new IntersectionObserver(
     ([entry]) => actionsBar.classList.toggle("is-pinned", entry.isIntersecting),
-    { rootMargin: "0px 0px -3rem 0px" }
+    // rootMargin only accepts px or %: rem throws a SyntaxError and takes the
+    // rest of app() down with it.
+    { rootMargin: "0px 0px -48px 0px" }
   );
   observer.observe(form);
 };
@@ -231,8 +191,6 @@ function app() {
     msg,
     onSelect: (id) => selectTransformer(id),
   });
-
-  initTheme();
 
   const initialId = idFromHash() || Object.keys(transformers)[0];
   transformerStatus.set(initialId);

@@ -1,8 +1,11 @@
 import app from "./src/js/app/app.js";
+import { initSite } from "./src/js/modules/site.js";
 import { initEasterEgg } from "./src/js/modules/easterEgg.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  app();
+  initSite();
+  // The hub page has the header and footer but no tool.
+  if (document.querySelector("#formApp")) app();
   initEasterEgg();
 });
 

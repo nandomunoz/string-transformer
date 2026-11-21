@@ -12,13 +12,15 @@ Demo: https://nandomunoz.github.io/string-transformer/
 dependencias de runtime. ES modules nativos en el navegador. Node solo se usa
 para tooling (tests con `node --test`, el generador de páginas SEO, el CLI) —
 siempre sin dependencias externas. El gestor de paquetes es **pnpm** (fijado
-con `packageManager` en `package.json`); no uses `npm` ni `yarn`. Pico CSS está vendorizado localmente
-(`src/css/vendor/`), no por CDN.
+con `packageManager` en `package.json`); no uses `npm` ni `yarn`. El sistema de diseño es **LUZ**
+(luzds.com, `@luz-ds/tokens`), vendorizado localmente en
+`src/css/vendor/luz/` (tokens + fuente ET Book), no por CDN. No hay otro
+framework ni sistema de diseño CSS.
 
 ## Comandos
 
 - Servir en local: `pnpm serve` (`pnpm dlx serve .`)
-- Tests: `pnpm test` (`node --test`, 82 tests en ficheros `*.test.js`
+- Tests: `pnpm test` (`node --test`, 86 tests en ficheros `*.test.js`
   co-localizados junto a cada módulo)
 - Generar páginas SEO: `pnpm build:seo` (regenera `t/`, `sitemap.xml`,
   `robots.txt` — todo gitignored, se regenera en cada deploy de CI)
@@ -92,15 +94,29 @@ con `packageManager` en `package.json`); no uses `npm` ni `yarn`. Pico CSS está
 
 ## CSS / UI
 
-- Pico CSS v1.5.10 vendorizado (`src/css/vendor/`) + una capa propia encima.
-  Entrada única: `style.css` → `src/css/app.css`, que importa el resto.
-- `src/css/tokens.css` es la fuente de verdad del diseño: escalas fluidas con
-  `clamp()`, radios, superficies por tema (`--st-surface*`), `--st-tap-target`
-  (2.75rem, mínimo de WCAG 2.2) y `--st-font-mono`. Sobrescribe también algunas
-  variables de Pico (`--border-radius`, `--spacing`) para que sus componentes
-  hereden el look.
+- **LUZ es el único sistema de diseño.** `src/css/vendor/luz/luz-tokens.css`
+  (copia vendorizada de `@luz-ds/tokens`, con `fonts/serif/` y sus licencias) se
+  enlaza con un `<link>` antes de `style.css`. Para actualizarlo, copia de nuevo
+  el CSS y las fuentes desde el repo de LUZ; no lo edites a mano.
+- Entrada única: `style.css` → `src/css/app.css`, que importa el resto:
+  `tokens.css` (alias `--st-*` sobre los tokens `--luz-*`; nunca escribas un hex
+  ni un nombre de fuente en la capa de la app, apunta a un token LUZ),
+  `base.css` (reset, tipografía, botones), `site.css` (promo, cabecera, menú
+  Convert, hero, features, banda, footer), `command-menu.css`, `seo.css` y
+  `dialog.css`. `app.css` contiene la herramienta (`.tool`, paneles, acciones).
+- Tema: LUZ cambia con `data-theme="light|dark"` en `<html>` (lo pone el script
+  `st:theme-bootstrap` y `src/js/modules/site.js`). Esquinas rectas y sombras
+  duras (`--st-hard-shadow`), como LUZ.
+- La **cabecera** (promo + header + iconos SVG) y el **pie** se escriben una sola
+  vez en `index.html`, entre `<!-- st:header -->` / `<!-- st:footer -->`, con
+  enlaces relativos a la raíz (`t/camel-case/`, `#features`). El generador SEO
+  los extrae y antepone el camino a la raíz de cada página (`rebaseLinks`).
+  `site.test.js` comprueba que esos enlaces y los contadores (58 / 8) coinciden
+  con el registro.
+- `src/js/modules/site.js` (`initSite`): tema, menú Convert y botones Install,
+  para toda página con cabecera, tenga o no la herramienta.
 - Mobile-first. El layout de los dos paneles usa **container queries** sobre
-  `.st-workspace` (no media queries), para que la misma tarjeta funcione
+  `.st-panels-frame` (no media queries), para que la misma tarjeta funcione
   embebida en las páginas SEO. El breakpoint de los patrones específicos de
   móvil es `48em`, duplicado en `command-menu.css` y `commandMenu.js`
   (`OVERLAY_QUERY`) — si cambias uno, cambia el otro.

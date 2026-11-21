@@ -1,29 +1,64 @@
-/* Site layout */
+/* Entry for the app's own CSS (LUZ tokens are linked separately, before it). */
 @import "tokens.css";
-@import "header-default.css";
-@import "footer-default.css";
-@import "section-default.css";
+@import "base.css";
+@import "site.css";
 @import "command-menu.css";
+@import "seo.css";
+@import "dialog.css";
 
-body > main.container {
-  width: 100%;
-  max-width: var(--st-content-width);
-  margin-inline: auto;
-  padding: var(--st-space-lg) var(--st-space-md);
-}
+/* --- The tool: a dashed blue frame with the picker, two panels, actions --- */
 
-/* --- The tool card --------------------------------------------------- */
-
-.st-workspace {
+.tool {
   margin: 0;
-  padding: var(--st-space-lg);
-  border: 1px solid var(--st-border-subtle);
-  border-radius: var(--st-radius-lg);
-  background-color: var(--st-surface);
+  padding: clamp(1rem, 3vw, 1.75rem);
+  border: 2px dashed var(--st-blue);
+  background-color: color-mix(in srgb, var(--st-blue) 6%, var(--st-white));
+  text-align: left;
 }
 
-.st-mode {
-  margin-bottom: var(--st-space-md);
+.tool-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.tool-from {
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--st-ink);
+  background-color: var(--st-white);
+  font: 600 0.95rem/1 var(--st-sans);
+}
+
+.tool-to {
+  font: italic 400 1.1rem/1 var(--st-serif);
+  color: var(--st-ink-3);
+}
+
+/* The transformer picker (command-menu.css) sits in this slot. */
+.tool-pick {
+  flex: 1 1 16rem;
+  min-width: 0;
+  max-inline-size: 24rem;
+}
+
+.tool-mode {
+  flex: 1 1 100%;
+  font: 500 0.8rem/1.3 var(--st-sans);
+  color: var(--st-ink-3);
+}
+
+@media (width >= 48em) {
+  .tool-mode {
+    flex: 1 1 14rem;
+    text-align: right;
+  }
+}
+
+.tool-mode .js-st-titleSelected {
+  font-weight: 700;
+  color: var(--st-ink-2);
 }
 
 /*
@@ -36,32 +71,6 @@ body > main.container {
   container-type: inline-size;
   container-name: panels;
 }
-
-.st-mode-eyebrow {
-  display: block;
-  margin-bottom: 0.15rem;
-  font-size: var(--st-text-xs);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--st-text-muted);
-}
-
-.st-mode-title {
-  margin: 0;
-  font-size: var(--st-text-xl);
-  line-height: 1.2;
-  letter-spacing: -0.015em;
-}
-
-.st-mode-desc {
-  margin: var(--st-space-2xs) 0 0;
-  font-size: var(--st-text-sm);
-  color: var(--st-text-muted);
-  max-width: 60ch;
-}
-
-/* --- Input / output panels ------------------------------------------- */
 
 .st-panels {
   display: grid;
@@ -89,48 +98,55 @@ body > main.container {
   align-items: baseline;
   justify-content: space-between;
   gap: var(--st-space-sm);
-  margin-bottom: var(--st-space-2xs);
+  margin-bottom: 0.35rem;
 }
 
 .st-panel-label {
   margin: 0;
-  font-size: var(--st-text-sm);
-  font-weight: 600;
+  font: 600 0.85rem/1.3 var(--st-sans);
 }
 
 .st-char-count {
-  font-size: var(--st-text-xs);
+  flex: none;
+  font: 400 0.8rem/1.3 var(--st-sans);
   font-variant-numeric: tabular-nums;
-  color: var(--st-text-muted);
+  color: var(--st-ink-3);
 }
 
 .st-panel textarea {
+  display: block;
   flex: 1 1 auto;
+  inline-size: 100%;
   margin: 0;
-  padding: var(--st-space-sm);
-  border-radius: var(--st-radius);
-  border: 1px solid var(--st-border-subtle);
-  background-color: var(--st-field);
-  color: var(--st-text);
-  font-family: var(--st-font-mono);
+  padding: 0.9rem;
+  border: 1px solid var(--st-line-strong);
+  border-radius: 0;
+  background-color: var(--st-white);
+  color: var(--st-ink);
+  font-family: var(--st-mono);
   /* 1rem: below that, iOS Safari zooms in when the field is focused. */
   font-size: var(--st-text-base);
-  line-height: 1.6;
+  line-height: 1.5;
   /* Long unbroken output (base64, hashes) wraps instead of scrolling sideways. */
   overflow-wrap: anywhere;
   resize: vertical;
   min-height: 9rem;
 }
 
+.st-panel textarea::placeholder {
+  color: var(--st-ink-3);
+  opacity: 1;
+}
+
 @container panels (width >= 38rem) {
   .st-panel textarea {
-    min-height: 15rem;
+    min-height: 10rem;
   }
 }
 
 .st-panel--output textarea {
-  background-color: var(--st-output);
-  border-color: transparent;
+  border-color: var(--st-line);
+  background-color: var(--st-paper-2);
 }
 
 /* --- Inline feedback -------------------------------------------------- */
@@ -144,23 +160,29 @@ body > main.container {
   margin: var(--st-space-xs) 0 0;
   padding: var(--st-space-xs) var(--st-space-sm);
   border-radius: var(--st-radius-sm);
-  font-size: var(--st-text-sm);
+  font: 400 var(--st-text-sm) / 1.4 var(--st-sans);
 }
 
 .st-suggestion {
-  background-color: var(--st-accent-soft);
+  background-color: var(--st-blue-soft);
 }
 
 .st-suggestion button {
-  background-color: transparent;
-  border: 1px solid var(--st-accent-text);
-  color: var(--st-accent-text);
-  width: auto;
   min-height: var(--st-tap-target);
   margin: 0;
   padding: 0 var(--st-space-sm);
+  border: 1px solid var(--st-blue-lo);
   border-radius: var(--st-radius-sm);
-  font-size: var(--st-text-sm);
+  background-color: transparent;
+  color: var(--st-blue-lo);
+  font: 600 var(--st-text-sm) var(--st-sans);
+  cursor: pointer;
+}
+
+.st-suggestion button:hover {
+  background-color: var(--st-blue);
+  border-color: var(--st-blue);
+  color: var(--st-on-blue);
 }
 
 .st-alert {
@@ -173,59 +195,27 @@ body > main.container {
   flex-shrink: 0;
 }
 
-/* [hidden] must win over the flex display above. */
-[hidden] {
-  display: none !important;
-}
-
 /* --- Action bar ------------------------------------------------------- */
 
 .st-actions {
   display: flex;
   align-items: center;
   gap: var(--st-space-xs);
-  margin-top: var(--st-space-md);
+  margin-top: 1rem;
 }
 
 .st-actions button {
   flex: 1 1 auto;
-  width: auto;
   min-height: var(--st-tap-target);
   margin: 0;
   padding: 0 var(--st-space-md);
-  border-radius: var(--st-radius-sm);
   font-size: var(--st-text-sm);
-  white-space: nowrap;
 }
 
 /* Copy is the one action people came for: it stays visually primary and, on a
    phone, takes the widest slice of the thumb-reachable bar. */
 .st-actions .st-action-primary {
   flex: 2 1 auto;
-  background-color: var(--st-accent);
-  border-color: var(--st-accent);
-  color: var(--st-accent-contrast);
-  font-weight: 600;
-}
-
-.st-actions .st-action-primary:hover,
-.st-actions .st-action-primary:focus-visible {
-  background-color: var(--st-accent-hover);
-  border-color: var(--st-accent-hover);
-}
-
-/* `color` is spelled out rather than inherited: Pico redefines --color to
-   --primary-inverse on every button, so inheriting would paint the label in
-   the accent's contrast colour and make it vanish on this transparent fill. */
-.st-actions .st-action-secondary {
-  background-color: transparent;
-  border: 1px solid var(--st-border-strong);
-  color: var(--st-text);
-}
-
-.st-actions .st-action-secondary:hover,
-.st-actions .st-action-secondary:focus-visible {
-  background-color: var(--st-accent-soft);
 }
 
 @media (width >= 48em) {
@@ -255,77 +245,7 @@ body > main.container {
     margin: 0;
     padding: var(--st-space-xs) var(--st-space-md);
     padding-bottom: calc(var(--st-space-xs) + env(safe-area-inset-bottom));
-    background-color: var(--st-surface);
-    border-top: 1px solid var(--st-border-subtle);
+    background-color: var(--st-white);
+    border-top: 1px solid var(--st-ink);
   }
-
-  .st-workspace {
-    padding: var(--st-space-md);
-  }
-}
-
-/* --- Password generator dialog (easter egg) --------------------------- */
-
-#pwdDialog article {
-  width: 100%;
-  max-width: 34rem;
-  border-radius: var(--st-radius-lg);
-}
-
-#pwdDialog .st-pwd-output {
-  display: flex;
-  align-items: center;
-  gap: var(--st-space-xs);
-}
-
-#pwdDialog .st-pwd-output input {
-  margin-bottom: 0;
-  border-radius: var(--st-radius-sm);
-  font-family: var(--st-font-mono);
-  font-size: var(--st-text-base);
-  overflow-wrap: anywhere;
-}
-
-#pwdDialog .st-pwd-output button {
-  flex-shrink: 0;
-  width: auto;
-  min-height: var(--st-tap-target);
-  margin-bottom: 0;
-  border-radius: var(--st-radius-sm);
-}
-
-#pwdDialog .st-pwd-meta {
-  margin: var(--st-space-xs) 0 var(--st-space-2xs);
-  font-size: var(--st-text-sm);
-  color: var(--st-text-muted);
-}
-
-#pwdDialog .st-pwd-meta.st-pwd-error {
-  color: var(--st-danger);
-}
-
-#pwdDialog .st-pwd-crack-time {
-  margin: 0 0 var(--st-space-md);
-  font-size: var(--st-text-sm);
-  color: var(--st-text-muted);
-  cursor: help;
-  text-decoration: underline dotted;
-  text-underline-offset: 0.2em;
-}
-
-#pwdDialog .st-pwd-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-  gap: var(--st-space-2xs) var(--st-space-md);
-  border: none;
-  padding: 0;
-  margin: 0 0 var(--st-space-md);
-}
-
-#pwdDialog .st-pwd-grid label {
-  display: flex;
-  align-items: center;
-  min-height: var(--st-tap-target);
-  margin-bottom: 0;
-  font-size: var(--st-text-sm);
 }
