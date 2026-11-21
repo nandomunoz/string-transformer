@@ -21,6 +21,7 @@
     <meta name="twitter:description" content="Converts binary code to UTF-8 text. Free, instant, and works offline — nothing leaves your browser." />
 
     <link rel="stylesheet" href="../../src/css/vendor/luz/luz-tokens.css" />
+    <link rel="stylesheet" href="../../src/css/vendor/luz/faq.css" />
     <link rel="stylesheet" href="../../style.css" />
     <script>
           // Applies the saved theme before first paint, so reloading in light mode
@@ -218,20 +219,26 @@
             </div>
             <div>
               <h2>Frequently asked questions</h2>
-              <div class="faq-list">
-        <details>
-          <summary>Is binary to text reversible?</summary>
-          <p>Yes — use &quot;TEXT TO BINARY&quot; to convert the output back to the original text.</p>
-        </details>
-        <details>
-          <summary>Does it handle accented letters and emoji correctly?</summary>
-          <p>Yes. It encodes and decodes real UTF-8 bytes, so characters like á, ñ, €, and emoji work correctly — not just plain ASCII.</p>
-        </details>
-        <details>
-          <summary>Is my text uploaded anywhere?</summary>
-          <p>No. Everything runs locally in your browser in vanilla JavaScript — nothing you type ever leaves your device.</p>
-        </details>
-              </div>
+              <luz-faq>
+                <details class="luz-faq__item">
+                  <summary class="luz-faq__question">Is binary to text reversible?</summary>
+                  <div class="luz-faq__answer" id="faq-1">
+                    <p>Yes — use &quot;TEXT TO BINARY&quot; to convert the output back to the original text.</p>
+                  </div>
+                </details>
+                <details class="luz-faq__item">
+                  <summary class="luz-faq__question">Does it handle accented letters and emoji correctly?</summary>
+                  <div class="luz-faq__answer" id="faq-2">
+                    <p>Yes. It encodes and decodes real UTF-8 bytes, so characters like á, ñ, €, and emoji work correctly — not just plain ASCII.</p>
+                  </div>
+                </details>
+                <details class="luz-faq__item">
+                  <summary class="luz-faq__question">Is my text uploaded anywhere?</summary>
+                  <div class="luz-faq__answer" id="faq-3">
+                    <p>No. Everything runs locally in your browser in vanilla JavaScript — nothing you type ever leaves your device.</p>
+                  </div>
+                </details>
+              </luz-faq>
             </div>
             <div>
               <h2>Related transformers</h2>

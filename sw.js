@@ -1,6 +1,6 @@
 // Bump on every release: the activate handler deletes every other cache, which
 // is what actually evicts stale assets.
-const CACHE_NAME = "string-transformer-v3";
+const CACHE_NAME = "string-transformer-v4";
 
 // The shell needed to render something usable offline. The JS modules under
 // src/js/ are deliberately not listed: index.js imports them all statically, so
@@ -20,8 +20,9 @@ const PRECACHE_URLS = [
   "./src/css/command-menu.css",
   "./src/css/seo.css",
   "./src/css/dialog.css",
-  // LUZ design system: tokens and the ET Book face.
+  // LUZ design system: tokens, the FAQ component and the ET Book face.
   "./src/css/vendor/luz/luz-tokens.css",
+  "./src/css/vendor/luz/faq.css",
   "./src/css/vendor/luz/fonts/serif/ETBook-Roman.woff2",
   "./src/css/vendor/luz/fonts/serif/ETBook-Italic.woff2",
   "./src/css/vendor/luz/fonts/serif/ETBook-SemiBold.woff2",

@@ -30,6 +30,7 @@
     />
 
     <link rel="stylesheet" href="src/css/vendor/luz/luz-tokens.css" />
+    <link rel="stylesheet" href="src/css/vendor/luz/faq.css" />
     <link rel="stylesheet" href="style.css" />
     <!-- st:theme-bootstrap -->
     <script>
@@ -320,40 +321,56 @@
       <section class="sec" id="faq" aria-labelledby="faq-title">
         <div class="wrap faq">
           <h2 class="section-title" id="faq-title">Frequently asked <em>questions</em></h2>
-          <div class="faq-list">
-            <details>
-              <summary>Is my text uploaded anywhere?</summary>
-              <p>No. Every conversion runs in your browser, in plain JavaScript. Nothing you type is sent to a server, logged or stored, so it is safe for tokens, keys and drafts.</p>
+          <luz-faq>
+            <details class="luz-faq__item">
+              <summary class="luz-faq__question">Is my text uploaded anywhere?</summary>
+              <div class="luz-faq__answer" id="faq-privacy">
+                <p>No. Every conversion runs in your browser, in plain JavaScript. Nothing you type is sent to a server, logged or stored, so it is safe for tokens, keys and drafts.</p>
+              </div>
             </details>
-            <details>
-              <summary>Does it work offline?</summary>
-              <p>Yes. After your first visit the app is cached, so it keeps working without a connection. You can also install it from the Install app button and open it like any other app.</p>
+            <details class="luz-faq__item">
+              <summary class="luz-faq__question">Does it work offline?</summary>
+              <div class="luz-faq__answer" id="faq-offline">
+                <p>Yes. After your first visit the app is cached, so it keeps working without a connection. You can also install it from the Install app button and open it like any other app.</p>
+              </div>
             </details>
-            <details>
-              <summary>Does it handle accents, emoji and other alphabets?</summary>
-              <p>Yes. Encoders and decoders work on real UTF-8 bytes, so characters like á, ñ, € and emoji convert correctly, not just plain ASCII.</p>
+            <details class="luz-faq__item">
+              <summary class="luz-faq__question">Does it handle accents, emoji and other alphabets?</summary>
+              <div class="luz-faq__answer" id="faq-utf8">
+                <p>Yes. Encoders and decoders work on real UTF-8 bytes, so characters like á, ñ, € and emoji convert correctly, not just plain ASCII.</p>
+              </div>
             </details>
-            <details>
-              <summary>How do I convert the result back?</summary>
-              <p>Use the Swap button. It switches to the opposite transformer, for example Base64 decode after Base64 encode, and moves the result into the input.</p>
+            <details class="luz-faq__item">
+              <summary class="luz-faq__question">How do I convert the result back?</summary>
+              <div class="luz-faq__answer" id="faq-swap">
+                <p>Use the Swap button. It switches to the opposite transformer, for example Base64 decode after Base64 encode, and moves the result into the input.</p>
+              </div>
             </details>
-            <details>
-              <summary>Can it tell which format my text is in?</summary>
-              <p>Often, yes. If your input looks like Base64, hex, a JWT or Morse code, the converter suggests the matching transformer with one click.</p>
+            <details class="luz-faq__item">
+              <summary class="luz-faq__question">Can it tell which format my text is in?</summary>
+              <div class="luz-faq__answer" id="faq-detect">
+                <p>Often, yes. If your input looks like Base64, hex, a JWT or Morse code, the converter suggests the matching transformer with one click.</p>
+              </div>
             </details>
-            <details>
-              <summary>Can I use SHA-256 and the other hashes for passwords?</summary>
-              <p>No. SHA-1, SHA-256 and SHA-512 are fast checksums, fine for comparing files or text but not for storing passwords. Use a slow password hash such as Argon2 or bcrypt for that.</p>
+            <details class="luz-faq__item">
+              <summary class="luz-faq__question">Can I use SHA-256 and the other hashes for passwords?</summary>
+              <div class="luz-faq__answer" id="faq-hashes">
+                <p>No. SHA-1, SHA-256 and SHA-512 are fast checksums, fine for comparing files or text but not for storing passwords. Use a slow password hash such as Argon2 or bcrypt for that.</p>
+              </div>
             </details>
-            <details>
-              <summary>Is it free? Is there a limit?</summary>
-              <p>It is free, with no sign-up and no limit on how much text you convert. The code is MIT licensed and lives on GitHub.</p>
+            <details class="luz-faq__item">
+              <summary class="luz-faq__question">Is it free? Is there a limit?</summary>
+              <div class="luz-faq__answer" id="faq-price">
+                <p>It is free, with no sign-up and no limit on how much text you convert. The code is MIT licensed and lives on GitHub.</p>
+              </div>
             </details>
-            <details>
-              <summary>Is there a command-line version?</summary>
-              <p>Yes. The repository includes a CLI: run node bin/cli.js with a format and your text, or pipe text in. Run it with --list to see every format.</p>
+            <details class="luz-faq__item">
+              <summary class="luz-faq__question">Is there a command-line version?</summary>
+              <div class="luz-faq__answer" id="faq-cli">
+                <p>Yes. The repository includes a CLI: run node bin/cli.js with a format and your text, or pipe text in. Run it with --list to see every format.</p>
+              </div>
             </details>
-          </div>
+          </luz-faq>
         </div>
       </section>
     </main>

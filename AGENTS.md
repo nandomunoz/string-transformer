@@ -98,6 +98,9 @@ framework ni sistema de diseño CSS.
   (copia vendorizada de `@luz-ds/tokens`, con `fonts/serif/` y sus licencias) se
   enlaza con un `<link>` antes de `style.css`. Para actualizarlo, copia de nuevo
   el CSS y las fuentes desde el repo de LUZ; no lo edites a mano.
+- Los componentes de LUZ se vendorizan igual, uno por fichero, y se enlazan
+  junto a los tokens (hoy: `faq.css`, `<luz-faq>` para el FAQ de la home y de
+  las landings). Si LUZ ya tiene el componente, úsalo en vez de escribir uno.
 - Entrada única: `style.css` → `src/css/app.css`, que importa el resto:
   `tokens.css` (alias `--st-*` sobre los tokens `--luz-*`; nunca escribas un hex
   ni un nombre de fuente en la capa de la app, apunta a un token LUZ),

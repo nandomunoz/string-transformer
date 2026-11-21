@@ -77,15 +77,22 @@ function buildFaq({ id, entry, oppositeId }) {
   ];
 }
 
+// LUZ's <luz-faq>: one native <details> per question, each answer with its own
+// id (the page has one FAQ, so a running number is enough).
 function renderFaqHtml(faqs) {
-  return faqs
+  const items = faqs
     .map(
-      (faq) => `        <details>
-          <summary>${esc(faq.q)}</summary>
-          <p>${esc(faq.a)}</p>
-        </details>`
+      (faq, index) => `                <details class="luz-faq__item">
+                  <summary class="luz-faq__question">${esc(faq.q)}</summary>
+                  <div class="luz-faq__answer" id="faq-${index + 1}">
+                    <p>${esc(faq.a)}</p>
+                  </div>
+                </details>`
     )
     .join("\n");
+  return `              <luz-faq>
+${items}
+              </luz-faq>`;
 }
 
 function renderJsonLd({ id, entry, slug, faqs }) {
@@ -212,6 +219,7 @@ function renderTransformerPage({
     <meta name="twitter:description" content="${esc(metaDescription)}" />
 
     <link rel="stylesheet" href="../../src/css/vendor/luz/luz-tokens.css" />
+    <link rel="stylesheet" href="../../src/css/vendor/luz/faq.css" />
     <link rel="stylesheet" href="../../style.css" />
 ${indentBlock(shell.themeBootstrap, 4)}
     <script>
@@ -252,9 +260,7 @@ ${indentBlock(shell.app, 10)}
             </div>
             <div>
               <h2>Frequently asked questions</h2>
-              <div class="faq-list">
 ${renderFaqHtml(faqs)}
-              </div>
             </div>
 ${renderRelatedLinks({ id, entry, pagesById })}
           </article>

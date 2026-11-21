@@ -61,7 +61,7 @@ test("the FAQ section sits last, before the footer, and matches its JSON-LD", ()
   assert.ok(faqAt > html.indexOf('aria-label="In numbers"'), "FAQ must come after the tally");
   assert.ok(faqAt < html.indexOf("<!-- st:footer -->"), "FAQ must come before the footer");
 
-  const shown = [...html.matchAll(/<summary>([^<]+)<\/summary>/g)].map((m) =>
+  const shown = [...html.matchAll(/<summary class="luz-faq__question">([^<]+)<\/summary>/g)].map((m) =>
     m[1].replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
   );
   const ld = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
