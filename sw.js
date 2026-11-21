@@ -1,6 +1,6 @@
 // Bump on every release: the activate handler deletes every other cache, which
 // is what actually evicts stale assets.
-const CACHE_NAME = "string-transformer-v2";
+const CACHE_NAME = "string-transformer-v4";
 
 // The shell needed to render something usable offline. The JS modules under
 // src/js/ are deliberately not listed: index.js imports them all statically, so
@@ -15,11 +15,18 @@ const PRECACHE_URLS = [
   "./style.css",
   "./src/css/app.css",
   "./src/css/tokens.css",
-  "./src/css/header-default.css",
-  "./src/css/footer-default.css",
-  "./src/css/section-default.css",
+  "./src/css/base.css",
+  "./src/css/site.css",
   "./src/css/command-menu.css",
-  "./src/css/vendor/pico.min.css",
+  "./src/css/seo.css",
+  "./src/css/dialog.css",
+  // LUZ design system: tokens, the FAQ component and the ET Book face.
+  "./src/css/vendor/luz/luz-tokens.css",
+  "./src/css/vendor/luz/faq.css",
+  "./src/css/vendor/luz/fonts/serif/ETBook-Roman.woff2",
+  "./src/css/vendor/luz/fonts/serif/ETBook-Italic.woff2",
+  "./src/css/vendor/luz/fonts/serif/ETBook-SemiBold.woff2",
+  "./src/css/vendor/luz/fonts/serif/ETBook-Bold.woff2",
 ];
 
 self.addEventListener("install", (event) => {

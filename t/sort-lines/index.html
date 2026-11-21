@@ -7,8 +7,8 @@
     <title>SORT LINES (A-Z) — Free Online Converter | String Transformer</title>
     <meta name="description" content="Sorts the lines alphabetically. Free, instant, and works offline — nothing leaves your browser." />
     <link rel="canonical" href="https://nandomunoz.github.io/string-transformer/t/sort-lines/" />
-    <meta name="theme-color" content="#161b22" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1c1712" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fbf8f2" media="(prefers-color-scheme: light)" />
     <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
     <link rel="manifest" href="../../manifest.json" />
 
@@ -20,7 +20,8 @@
     <meta name="twitter:title" content="SORT LINES (A-Z) — Free Online Converter" />
     <meta name="twitter:description" content="Sorts the lines alphabetically. Free, instant, and works offline — nothing leaves your browser." />
 
-    <link rel="stylesheet" href="../../src/css/vendor/pico.min.css" />
+    <link rel="stylesheet" href="../../src/css/vendor/luz/luz-tokens.css" />
+    <link rel="stylesheet" href="../../src/css/vendor/luz/faq.css" />
     <link rel="stylesheet" href="../../style.css" />
     <script>
           // Applies the saved theme before first paint, so reloading in light mode
@@ -91,117 +92,181 @@
   </head>
   <body>
     <a class="st-skip-link" href="#input">Skip to the converter</a>
-    <header class="st-appbar">
-      <div class="st-appbar-inner container">
-        <p class="st-brand"><a href="../../">String Transformer</a></p>
-        <p class="st-tagline">50+ text formats, converted as you type</p>
-        <nav id="stMenu" aria-label="Transformer selector"></nav>
-        <div class="st-appbar-actions">
-          <button
-            id="themeToggleBtn"
-            type="button"
-            class="st-icon-btn"
-            aria-label="Toggle light/dark theme"
-          >
-            <span aria-hidden="true">🌓</span>
-            <span class="st-icon-btn-label">Theme</span>
-          </button>
-        </div>
-      </div>
-    </header>
-    <main class="container">
-      <article class="st-seo-content">
-        <h1>SORT LINES (A-Z) — Free Online Converter</h1>
-        <p>Sorts the lines alphabetically. Type or paste your text in the tool below to convert it instantly.</p>
-        <div class="st-table-scroll">
-          <table>
-            <thead>
-              <tr><th scope="col">Input</th><th scope="col">Output</th></tr>
-            </thead>
-            <tbody>
-              <tr><td><code>Hello World</code></td><td><code>Hello World</code></td></tr>
-            </tbody>
-          </table>
-        </div>
-        <h2>Frequently asked questions</h2>
-        <details>
-          <summary>Is sort lines (a-z) reversible?</summary>
-          <p>Not directly — this transformation is one-way, so the exact original text can&apos;t always be reconstructed from the output alone.</p>
-        </details>
-        <details>
-          <summary>Does it handle accented letters and emoji correctly?</summary>
-          <p>Yes. It encodes and decodes real UTF-8 bytes, so characters like á, ñ, €, and emoji work correctly — not just plain ASCII.</p>
-        </details>
-        <details>
-          <summary>Is my text uploaded anywhere?</summary>
-          <p>No. Everything runs locally in your browser in vanilla JavaScript — nothing you type ever leaves your device.</p>
-        </details>
-      <h2>Related transformers</h2>
-      <ul>
-          <li><a href="../remove-extra-spaces/">REMOVE EXTRA SPACES</a></li>
-          <li><a href="../remove-empty-lines/">REMOVE EMPTY LINES</a></li>
-          <li><a href="../sort-lines-desc/">SORT LINES (Z-A)</a></li>
-          <li><a href="../dedupe-lines/">REMOVE DUPLICATE LINES</a></li>
-          <li><a href="../reverse-lines/">REVERSE LINE ORDER</a></li>
-      </ul>
+    <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+          <symbol id="i-mark" viewBox="0 0 64 64"><rect width="64" height="64" rx="6" style="fill: var(--st-blue)"/><path d="M14 24h26l-7-7M50 40H24l7 7" style="stroke: var(--st-on-blue)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+          <symbol id="i-install" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11M7.5 10l4.5 4.5 4.5-4.5M4.5 16.5v3h15v-3"/></symbol>
+          <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+          <symbol id="i-theme" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></symbol>
+          <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="3.5" width="7" height="7"/><rect x="13.5" y="3.5" width="7" height="7"/><rect x="3.5" y="13.5" width="7" height="7"/><rect x="13.5" y="13.5" width="7" height="7"/></symbol>
+          <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"/></symbol>
+          <symbol id="i-browser" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4.5" width="18" height="15" rx="1.5"/><path d="M3 9h18M6 6.8h.01M8.5 6.8h.01"/></symbol>
+          <symbol id="i-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9a14 14 0 0 1 18 0M6.5 12.5a9 9 0 0 1 11 0M10 16a4 4 0 0 1 4 0M12 19.5h.01M4 4l16 16"/></symbol>
+          <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="9.5" rx="1.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+          <symbol id="i-devices" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="2.5" y="5" width="13" height="10" rx="1"/><path d="M1.5 18h15"/><rect x="17" y="8" width="5.5" height="11" rx="1"/></symbol>
+        </svg>
 
-      </article>
-      <form id="formApp" class="st-workspace" action="">
-              <header class="st-mode">
-                <span class="st-mode-eyebrow">Mode</span>
-                <h2 class="st-mode-title js-st-titleSelected">No mode selected</h2>
-                <p class="st-mode-desc js-st-descriptionSelected">Select a transformer please</p>
-              </header>
-              <div class="st-panels-frame">
-                <div class="st-panels">
-                  <section class="st-panel">
-                    <div class="st-panel-head">
-                      <label class="st-panel-label" for="input">Input</label>
-                      <small class="st-char-count" id="inputCount">0 characters</small>
-                    </div>
-                    <textarea
-                      id="input"
-                      placeholder="Type or paste your text…"
-                      rows="6"
-                      autocapitalize="off"
-                      autocorrect="off"
-                      spellcheck="false"
-                      aria-describedby="formatAlert"
-                    ></textarea>
-                    <p class="st-suggestion" id="formatSuggestion" hidden></p>
-                    <p class="st-alert" role="alert" id="formatAlert" tabindex="-1" hidden></p>
-                  </section>
-                  <section class="st-panel st-panel--output">
-                    <div class="st-panel-head">
-                      <label class="st-panel-label" for="output">Output</label>
-                      <small class="st-char-count" id="outputCount">0 characters</small>
-                    </div>
-                    <textarea
-                      id="output"
-                      placeholder="The result appears here as you type"
-                      rows="6"
-                      readonly
-                      aria-live="polite"
-                    ></textarea>
-                  </section>
+        <nav class="promo" aria-label="Popular transformers">
+          <div class="wrap promo-in">
+            <span class="label">Popular</span>
+            <a href="../../#camelCase">camelCase</a>
+            <a href="../../#snakeCase">snake_case</a>
+            <a href="../../#ASCIIToBase64">Base64</a>
+            <a href="../../#urlEncode">URL encode</a>
+            <a href="../../#text2Morse">Morse</a>
+            <a href="../../#dedupeLines">Remove duplicates</a>
+          </div>
+        </nav>
+
+        <header class="top">
+          <div class="wrap top-in">
+            <a class="brand" href="../../#top" aria-label="String Transformer, back to the top"><svg aria-hidden="true"><use href="#i-mark"/></svg><span>STRING TRANSFORMER</span></a>
+            <nav class="top-nav" aria-label="Site">
+              <details class="mega">
+                <summary>Convert<svg aria-hidden="true"><use href="#i-down"/></svg></summary>
+                <div class="mega-panel">
+                  <div><h3>Naming</h3><a href="../../#camelCase">camelCase</a><a href="../../#pascalCase">PascalCase</a><a href="../../#snakeCase">snake_case</a><a href="../../#kebabCase">kebab-case</a><a href="../../#titleCase">Title Case</a></div>
+                  <div><h3>Encoding</h3><a href="../../#ASCIIToBase64">Base64 encode</a><a href="../../#urlEncode">URL encode</a><a href="../../#hexEncode">Text to hex</a><a href="../../#jsonEscape">JSON escape</a><a href="../../#unicodeEscape">Unicode escape</a></div>
+                  <div><h3>Ciphers</h3><a href="../../#text2Morse">Text to Morse</a><a href="../../#rot13">ROT13</a><a href="../../#atbash">Atbash</a><a href="../../#textToNato">NATO alphabet</a></div>
+                  <div><h3>Hashing &amp; dev</h3><a href="../../#sha1">SHA-1</a><a href="../../#sha256">SHA-256</a><a href="../../#sha512">SHA-512</a><a href="../../#jwtDecode">JWT decode</a></div>
+                  <div><h3>Text tools</h3><a href="../../#sortLines">Sort lines</a><a href="../../#dedupeLines">Remove duplicates</a><a href="../../#removeExtraSpaces">Extra spaces</a><a href="../../#countStats">Text stats</a><a class="mega-all" href="../../#formats">All 58 →</a></div>
                 </div>
+              </details>
+              <a href="../../#features">Features</a>
+              <a href="../../#developers">Developers</a>
+              <a href="../../#formats">All formats</a>
+            </nav>
+            <div class="top-actions">
+              <button id="themeToggleBtn" type="button" class="icon-btn" aria-label="Toggle light/dark theme"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+              <button class="btn btn--small" type="button" data-install><svg class="btn-ico" aria-hidden="true"><use href="#i-install"/></svg><span class="btn-label">Install app</span></button>
+            </div>
+          </div>
+        </header>
+    <main id="main">
+      <section class="hero hero--page" id="top" aria-labelledby="hero-title">
+        <div class="wrap">
+          <p class="label">Text Tools</p>
+          <h1 id="hero-title">SORT LINES (A-Z) — Free Online Converter</h1>
+          <p class="sub">Sorts the lines alphabetically. Type or paste your text in the tool below to convert it instantly.</p>
+          <form id="formApp" class="tool" action="">
+                      <div class="tool-row">
+                        <span class="tool-from">Text</span>
+                        <span class="tool-to" aria-hidden="true">to</span>
+                        <nav id="stMenu" class="tool-pick" aria-label="Transformer selector"></nav>
+                        <p class="tool-mode">
+                          <span class="js-st-titleSelected">No mode selected</span> ·
+                          <span class="js-st-descriptionSelected">Select a transformer please</span>
+                        </p>
+                      </div>
+                      <div class="st-panels-frame">
+                        <div class="st-panels">
+                          <section class="st-panel">
+                            <div class="st-panel-head">
+                              <label class="st-panel-label" for="input">Input</label>
+                              <small class="st-char-count" id="inputCount">0 characters</small>
+                            </div>
+                            <textarea
+                              id="input"
+                              placeholder="Type or paste your text…"
+                              rows="6"
+                              autocapitalize="off"
+                              autocorrect="off"
+                              spellcheck="false"
+                              aria-describedby="formatAlert"
+                            ></textarea>
+                            <p class="st-suggestion" id="formatSuggestion" hidden></p>
+                            <p class="st-alert" role="alert" id="formatAlert" tabindex="-1" hidden></p>
+                          </section>
+                          <section class="st-panel st-panel--output">
+                            <div class="st-panel-head">
+                              <label class="st-panel-label" for="output">Output</label>
+                              <small class="st-char-count" id="outputCount">0 characters</small>
+                            </div>
+                            <textarea
+                              id="output"
+                              placeholder="The result appears here as you type"
+                              rows="6"
+                              readonly
+                              aria-live="polite"
+                            ></textarea>
+                          </section>
+                        </div>
+                      </div>
+                      <div class="st-actions">
+                        <button id="swapBtn" type="button" class="btn btn--ghost btn--small" hidden>
+                          <span aria-hidden="true">⇄</span>&nbsp;Swap
+                        </button>
+                        <button id="resetInputBtn" type="button" class="btn btn--ghost btn--small">Clear</button>
+                        <button id="copyOutputBtn" type="button" class="btn st-action-primary">Copy result</button>
+                      </div>
+                    </form>
+        </div>
+      </section>
+      <section class="sec">
+        <div class="wrap">
+          <article class="st-seo-content">
+            <div>
+              <h2>Example</h2>
+              <div class="st-table-scroll">
+                <table>
+                  <thead>
+                    <tr><th scope="col">Input</th><th scope="col">Output</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>Hello World</code></td><td><code>Hello World</code></td></tr>
+                  </tbody>
+                </table>
               </div>
-              <div class="st-actions">
-                <button id="swapBtn" type="button" class="st-action-secondary" hidden>
-                  <span aria-hidden="true">⇄</span> Swap
-                </button>
-                <button id="resetInputBtn" type="button" class="st-action-secondary">Clear</button>
-                <button id="copyOutputBtn" type="button" class="st-action-primary">Copy result</button>
-              </div>
-            </form>
+            </div>
+            <div>
+              <h2>Frequently asked questions</h2>
+              <luz-faq>
+                <details class="luz-faq__item">
+                  <summary class="luz-faq__question">Is sort lines (a-z) reversible?</summary>
+                  <div class="luz-faq__answer" id="faq-1">
+                    <p>Not directly — this transformation is one-way, so the exact original text can&apos;t always be reconstructed from the output alone.</p>
+                  </div>
+                </details>
+                <details class="luz-faq__item">
+                  <summary class="luz-faq__question">Does it handle accented letters and emoji correctly?</summary>
+                  <div class="luz-faq__answer" id="faq-2">
+                    <p>Yes. It encodes and decodes real UTF-8 bytes, so characters like á, ñ, €, and emoji work correctly — not just plain ASCII.</p>
+                  </div>
+                </details>
+                <details class="luz-faq__item">
+                  <summary class="luz-faq__question">Is my text uploaded anywhere?</summary>
+                  <div class="luz-faq__answer" id="faq-3">
+                    <p>No. Everything runs locally in your browser in vanilla JavaScript — nothing you type ever leaves your device.</p>
+                  </div>
+                </details>
+              </luz-faq>
+            </div>
+            <div>
+              <h2>Related transformers</h2>
+              <ul class="st-seo-links">
+                <li><a href="../remove-extra-spaces/">REMOVE EXTRA SPACES</a></li>
+                <li><a href="../remove-empty-lines/">REMOVE EMPTY LINES</a></li>
+                <li><a href="../sort-lines-desc/">SORT LINES (Z-A)</a></li>
+                <li><a href="../dedupe-lines/">REMOVE DUPLICATE LINES</a></li>
+                <li><a href="../reverse-lines/">REVERSE LINE ORDER</a></li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </section>
     </main>
-    <footer class="container">
-      <small
-        >Project by
-        <a title="Author Site" href="https://github.com/nandomunoz">Nando Muñoz</a>
-        · Code licensed <a title="MIT License" href="https://opensource.org/licenses/MIT">MIT</a>
-        · <a href="../">Browse all transformers</a></small
-      >
-    </footer>
+    <footer class="foot">
+          <div class="wrap foot-in">
+            <nav class="cols" aria-label="Footer">
+              <div><h3>Project</h3><a href="../../#developers">Install the app</a><a href="../../#formats">All transformers</a><a href="../../#features">Features</a></div>
+              <div><h3>Naming</h3><a href="../../#camelCase">camelCase</a><a href="../../#snakeCase">snake_case</a><a href="../../#kebabCase">kebab-case</a></div>
+              <div><h3>Encoding</h3><a href="../../#ASCIIToBase64">Base64 encode</a><a href="../../#urlEncode">URL encode</a><a href="../../#hexEncode">Text to hex</a></div>
+              <div><h3>Developers</h3><a href="https://github.com/nandomunoz/string-transformer">GitHub</a><a href="../../#jwtDecode">JWT decode</a><a href="../../#sha256">SHA-256</a></div>
+            </nav>
+          </div>
+          <div class="wrap legal">
+            <span class="brand"><svg aria-hidden="true"><use href="#i-mark"/></svg><b>STRING TRANSFORMER</b></span>
+            <small>Project by <a title="Author Site" href="https://github.com/nandomunoz">Nando Muñoz</a> · <a title="MIT License" href="https://opensource.org/licenses/MIT">MIT</a></small>
+          </div>
+        </footer>
   </body>
 </html>

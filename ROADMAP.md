@@ -61,7 +61,7 @@ pero se prioriza lo nativo (`node --test`, `crypto.subtle`, ES modules).
 
 ### Dependencias / assets
 
-- [x] Pico CSS v1.5.10 vendorizado en `src/css/vendor/pico.min.css` (pineado, sin CDN).
+- [x] Pico CSS v1.5.10 vendorizado en `src/css/vendor/pico.min.css` (pineado, sin CDN). **Sustituido** por el sistema de diseño LUZ (`src/css/vendor/luz/`) en el rediseño de la rama `feat/convertio-redesign`.
 - [x] Favicon SVG propio (`favicon.svg`), sin dependencias externas.
 
 ## Fase 2 — Nuevas transformaciones ✅
