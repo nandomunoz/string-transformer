@@ -3,6 +3,7 @@ import msg from "../data/msg.js";
 import { findOppositeId } from "../data/opposites.js";
 import { copyValue, resetInput, debounce } from "../modules/utils.js";
 import { createCommandMenu } from "../modules/commandMenu.js";
+import { createDirectory } from "../modules/directory.js";
 import { detectFormat } from "../modules/detect.js";
 
 const form = document.querySelector("#formApp");
@@ -192,12 +193,32 @@ function app() {
     onSelect: (id) => selectTransformer(id),
   });
 
+  createDirectory({
+    container: document.querySelector("#directory"),
+    transformers,
+    msg,
+  });
+
   const initialId = idFromHash() || Object.keys(transformers)[0];
   transformerStatus.set(initialId);
   menu?.setActive(initialId);
   updateForm({ inputValue: inputTextarea?.value ?? "" });
   initEvents();
   initPinnedActions();
+
+  // A link to a transformer (#id) loads it and brings the tool into view. This
+  // is done on click, not on hashchange, because clicking the link of the
+  // transformer that is already loaded changes no hash and fires no event.
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest?.('a[href^="#"]');
+    if (!link) return;
+    const id = decodeURIComponent(link.hash.replace(/^#/, ""));
+    if (!transformers[id]) return;
+    event.preventDefault();
+    selectTransformer(id);
+    form?.scrollIntoView({ block: "center" });
+    inputTextarea?.focus({ preventScroll: true });
+  });
 
   window.addEventListener("hashchange", () => {
     const id = idFromHash();

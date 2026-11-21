@@ -266,7 +266,86 @@
   color: var(--st-ink-3);
 }
 
-/* --- 5. Six features -------------------------------------------------------- */
+/* --- 5. Directory: every format, grouped --------------------------------------- */
+
+.section-title {
+  font-size: clamp(2rem, 4.2vw, 3.2rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.section-sub {
+  margin: 0.6rem 0 clamp(1.75rem, 4vw, 2.5rem);
+  font: 400 1rem/1.4 var(--st-sans);
+  color: var(--st-ink-2);
+  text-align: center;
+}
+
+.dir {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem 2rem;
+}
+
+.dir summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  min-block-size: var(--st-tap-target);
+  padding-block: 0.5rem;
+  border-bottom: 1px solid var(--st-ink);
+  list-style: none;
+  cursor: pointer;
+  font: 600 1rem/1.3 var(--st-sans);
+}
+
+.dir summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Plus / minus: tells a phone user the folded groups open. */
+.dir summary::after {
+  content: "+";
+  margin-inline-start: 0.75rem;
+  font: 400 1.3rem/1 var(--st-sans);
+  color: var(--st-blue-lo);
+}
+
+.dir details[open] summary::after {
+  content: "\2212";
+}
+
+.dir-count {
+  margin-inline-start: auto;
+  font: 500 0.75rem/1 var(--st-mono);
+  color: var(--st-blue-lo);
+}
+
+.dir ul {
+  display: grid;
+  margin-top: 0.5rem;
+}
+
+.dir li a {
+  display: block;
+  padding-block: 0.4rem;
+  font: 400 0.95rem/1.3 var(--st-sans);
+  color: var(--st-ink-2);
+  text-decoration: none;
+}
+
+.dir li a:hover {
+  color: var(--st-blue-lo);
+  text-decoration: underline;
+}
+
+.sec--tint {
+  background-color: var(--st-paper-2);
+  border-block: 1px solid var(--st-line);
+}
+
+/* --- 6. Six features -------------------------------------------------------- */
 
 .sec {
   padding-block: clamp(3rem, 7vw, 5.5rem);
@@ -300,7 +379,7 @@
   color: var(--st-ink-2);
 }
 
-/* --- 6. Developers band ------------------------------------------------------ */
+/* --- 7. Developers band ------------------------------------------------------ */
 
 .band {
   background-color: var(--st-dark);
@@ -346,7 +425,7 @@
   justify-content: center;
 }
 
-/* --- 7. Tally ------------------------------------------------------------------ */
+/* --- 8. Tally ------------------------------------------------------------------ */
 
 .tally {
   display: grid;
@@ -380,7 +459,7 @@
   font: 400 2.2rem/1 var(--st-serif);
 }
 
-/* --- 8. Footer ------------------------------------------------------------------- */
+/* --- 9. Footer ------------------------------------------------------------------- */
 
 .foot-in {
   padding-block: 3rem;
@@ -530,8 +609,14 @@
     letter-spacing: 0.16em;
   }
 
-  .six {
+  .six,
+  .dir {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Open on a wide screen: the marker is only for the folded phone groups. */
+  .dir summary::after {
+    display: none;
   }
 
   .actions {
@@ -553,7 +638,8 @@
     margin-inline-start: 0;
   }
 
-  .six {
+  .six,
+  .dir {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 

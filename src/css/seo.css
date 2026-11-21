@@ -15,10 +15,6 @@
   color: var(--st-ink-2);
 }
 
-.hero--hub {
-  padding-block-end: 0;
-}
-
 .st-seo-content {
   display: grid;
   gap: clamp(2rem, 5vw, 3rem);

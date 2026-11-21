@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Generates one static, crawlable landing page per transformer (t/<slug>/),
-// a hub page listing them all (t/), sitemap.xml and robots.txt.
+// sitemap.xml and robots.txt. The directory of every format is a section of the
+// home page, not a page of its own.
 //
 // Why: a single-page app with an in-JS menu has nothing for search engines to
 // index per keyword ("camel case converter", "base64 decode online"...). This
@@ -264,80 +265,9 @@ ${indentBlock(rebaseLinks(shell.footer, "../../"), 4)}
 `;
 }
 
-function renderHubPage(pagesById, shell) {
-  const byCategory = new Map();
-  Object.values(pagesById).forEach((page) => {
-    const category = page.entry.category || "Other";
-    if (!byCategory.has(category)) byCategory.set(category, []);
-    byCategory.get(category).push(page);
-  });
-
-  const sections = Array.from(byCategory.entries())
-    .map(([category, pages]) => {
-      const items = pages
-        .map(
-          (page) => `                <li><a href="${page.slug}/">${esc(page.entry.title)}</a></li>`
-        )
-        .join("\n");
-      return `            <div>
-              <h2>${esc(category)}</h2>
-              <ul class="st-seo-links">
-${items}
-              </ul>
-            </div>`;
-    })
-    .join("\n");
-
-  return `<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="color-scheme" content="dark light" />
-    <title>All Text Transformers — String Transformer</title>
-    <meta
-      name="description"
-      content="Browse every text transformer: case conversion, encoding, ciphers, hashing, dev tools and text utilities. Free, instant, works offline."
-    />
-    <link rel="canonical" href="${BASE_URL}t/" />
-    <meta name="theme-color" content="#1c1712" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#fbf8f2" media="(prefers-color-scheme: light)" />
-    <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
-    <link rel="manifest" href="../manifest.json" />
-    <link rel="stylesheet" href="../src/css/vendor/luz/luz-tokens.css" />
-    <link rel="stylesheet" href="../style.css" />
-${indentBlock(shell.themeBootstrap, 4)}
-    <script type="module" src="../index.js"></script>
-  </head>
-  <body>
-    <a class="st-skip-link" href="#main">Skip to the list</a>
-${indentBlock(rebaseLinks(shell.header, "../"), 4)}
-    <main id="main">
-      <section class="hero hero--page hero--hub" id="top" aria-labelledby="hero-title">
-        <div class="wrap">
-          <p class="label">Text converter</p>
-          <h1 id="hero-title">All <em>transformers</em></h1>
-          <p class="sub">Every text transformation String Transformer supports, grouped by category.</p>
-        </div>
-      </section>
-      <section class="sec">
-        <div class="wrap">
-          <article class="st-seo-content">
-${sections}
-          </article>
-        </div>
-      </section>
-    </main>
-${indentBlock(rebaseLinks(shell.footer, "../"), 4)}
-  </body>
-</html>
-`;
-}
-
 function renderSitemap(pagesById) {
   const urls = [
     `${BASE_URL}`,
-    `${BASE_URL}t/`,
     ...Object.values(pagesById).map((page) => `${BASE_URL}t/${page.slug}/`),
   ];
   const entries = urls
@@ -393,11 +323,10 @@ async function main() {
     await writeFile(path.join(pageDir, "index.html"), html, "utf8");
   }
 
-  await writeFile(path.join(OUTPUT_DIR, "index.html"), renderHubPage(pagesById, shell), "utf8");
   await writeFile(path.join(ROOT_DIR, "sitemap.xml"), renderSitemap(pagesById), "utf8");
   await writeFile(path.join(ROOT_DIR, "robots.txt"), renderRobots(), "utf8");
 
-  console.log(`Generated ${ids.length} transformer pages + hub + sitemap.xml + robots.txt`);
+  console.log(`Generated ${ids.length} transformer pages + sitemap.xml + robots.txt`);
 }
 
 main().catch((err) => {

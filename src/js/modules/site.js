@@ -56,7 +56,11 @@ function initMegaMenu() {
   if (!mega) return;
 
   document.addEventListener("click", (event) => {
-    if (mega.open && !mega.contains(event.target)) mega.open = false;
+    if (!mega.open) return;
+    // Outside the menu, or on one of its links (they stay on this page).
+    if (!mega.contains(event.target) || event.target.closest(".mega-panel a")) {
+      mega.open = false;
+    }
   });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && mega.open) {

@@ -7,11 +7,9 @@ import { readFile, readdir } from "node:fs/promises";
 
 import { transformers } from "./src/js/core.js";
 import msg from "./src/js/data/msg.js";
-import { toWords } from "./src/js/modules/text.js";
 
 const html = await readFile(new URL("./index.html", import.meta.url), "utf8");
 const ids = Object.keys(transformers);
-const slugs = new Set(ids.map((id) => toWords(id).join("-").toLowerCase()));
 const groups = new Set(ids.map((id) => msg[id].category));
 
 test("the counters match the registry", () => {
@@ -29,17 +27,31 @@ test("the counters match the registry", () => {
   });
 });
 
-test("every t/<slug>/ link points at a real transformer page", () => {
-  const links = [...html.matchAll(/href="t\/([^"/]+)\/"/g)].map((m) => m[1]);
-  assert.ok(links.length > 0);
-  links.forEach((slug) => assert.ok(slugs.has(slug), `unknown transformer page: t/${slug}/`));
+test("the whole site is one page: no link leaves index.html for another page", () => {
+  const body = html.slice(html.indexOf("<body>"));
+  const internal = [...body.matchAll(/<a\b[^>]*\shref="([^"]*)"/g)]
+    .map((m) => m[1])
+    .filter((href) => !/^[a-z][a-z0-9+.-]*:/i.test(href));
+  assert.ok(internal.length > 0);
+  internal.forEach((href) => assert.match(href, /^#/, `link to another page: ${href}`));
 });
 
-test("every promo link deep-links to a real transformer id", () => {
-  const promo = html.match(/<nav class="promo"[\s\S]*?<\/nav>/)[0];
-  const linked = [...promo.matchAll(/href="#([^"]+)"/g)].map((m) => m[1]);
+test("every in-page link is a section of the page or a real transformer id", () => {
+  const sectionIds = new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
+  const linked = [...html.matchAll(/<a\b[^>]*\shref="#([^"]+)"/g)].map((m) => m[1]);
   assert.ok(linked.length > 0);
-  linked.forEach((id) => assert.ok(transformers[id], `unknown transformer id: #${id}`));
+  linked.forEach((anchor) =>
+    assert.ok(
+      sectionIds.has(anchor) || transformers[anchor],
+      `#${anchor} is neither a section nor a transformer`
+    )
+  );
+});
+
+test("the directory section exists and counts the same transformers", () => {
+  assert.match(html, /id="directory"/);
+  assert.match(html, new RegExp(`All <em>${ids.length} formats</em>`));
+  assert.match(html, new RegExp(`All ${ids.length} \u2192`));
 });
 
 test("LUZ is the only design system: no Pico left in the app", async () => {

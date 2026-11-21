@@ -71,7 +71,7 @@ framework ni sistema de diseño CSS.
   como par de sí mismos
 - `scripts/build-seo-pages.mjs` — genera una landing page real por transformer
   (`t/<slug>/`) con ejemplo calculado en build (ejecuta el transformer de
-  verdad, no texto inventado), FAQ, JSON-LD, más el hub `t/`, `sitemap.xml` y
+  verdad, no texto inventado), FAQ, JSON-LD, `sitemap.xml` y
   `robots.txt`. Node vanilla, sin dependencias. **No duplica el marcado de la
   app**: lo extrae de `index.html` entre los marcadores `<!-- st:app -->` /
   `<!-- /st:app -->` (y `st:theme-bootstrap`). Si cambias el formulario, cámbialo
@@ -109,10 +109,15 @@ framework ni sistema de diseño CSS.
   duras (`--st-hard-shadow`), como LUZ.
 - La **cabecera** (promo + header + iconos SVG) y el **pie** se escriben una sola
   vez en `index.html`, entre `<!-- st:header -->` / `<!-- st:footer -->`, con
-  enlaces relativos a la raíz (`t/camel-case/`, `#features`). El generador SEO
+  enlaces a anclas de la home (`#camelCase`, `#features`, `#formats`). El generador SEO
   los extrae y antepone el camino a la raíz de cada página (`rebaseLinks`).
-  `site.test.js` comprueba que esos enlaces y los contadores (58 / 8) coinciden
-  con el registro.
+  **Todo el sitio es una sola página**: el directorio de formatos es la sección
+  `#formats` de la home (la pinta `src/js/modules/directory.js` desde el
+  registro) y un clic en `#<id>` carga ese transformer y lleva a la herramienta
+  (handler delegado en `app.js`). Las páginas `t/<slug>/` son solo landings SEO
+  que salen del sitemap; la interfaz nunca enlaza a ellas salvo los relacionados
+  de cada landing. `site.test.js` comprueba que los enlaces de `index.html` son
+  anclas válidas y que los contadores (58 / 8) coinciden con el registro.
 - `src/js/modules/site.js` (`initSite`): tema, menú Convert y botones Install,
   para toda página con cabecera, tenga o no la herramienta.
 - Mobile-first. El layout de los dos paneles usa **container queries** sobre
